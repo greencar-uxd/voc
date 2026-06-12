@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>G car VOC 월별 추이 대시보드</title>
+<script src="lib/chart.umd.js"></script>
+<script src="data.js"></script>
+<style>
+  :root {
+    --fact: #1d4ed8;   --fact-bg: #dbeafe;
+    --infer: #c2410c;  --infer-bg: #ffedd5;
+    --check: #4b5563;  --check-bg: #e5e7eb;
+    --regime-past5: #9ca3af;
+    --regime-excerpt: #f97316;
+    --regime-full: #2563eb;
+    --ink: #1f2937; --ink-soft: #6b7280;
+    --line: #e5e7eb; --card: #ffffff; --bg: #f5f6f8;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", -apple-system, sans-serif;
+    font-size: 14px; line-height: 1.65;
+  }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 28px 24px 80px; }
+  h1 { font-size: 24px; margin: 0 0 4px; }
+  h2 { font-size: 18px; margin: 0 0 4px; }
+  .sub { color: var(--ink-soft); font-size: 13px; margin-bottom: 20px; }
+  section { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 22px 24px; margin-bottom: 22px; }
+  .section-note { color: var(--ink-soft); font-size: 12.5px; margin: 2px 0 14px; }
+
+  /* 배지 */
+  .badge { display: inline-block; font-size: 11px; font-weight: 700; padding: 1px 7px; border-radius: 4px; margin-right: 6px; vertical-align: middle; white-space: nowrap; }
+  .badge.fact  { color: var(--fact);  background: var(--fact-bg); }
+  .badge.infer { color: var(--infer); background: var(--infer-bg); }
+  .badge.check { color: var(--check); background: var(--check-bg); }
+  .badge.warn  { color: #b91c1c; background: #fee2e2; }
+  .badge.dept  { color: #6d28d9; background: #ede9fe; }
+  .badge.tier  { color: #065f46; background: #d1fae5; }
+
+  /* 헤더 카드 */
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; }
+  .card .k { font-size: 12px; color: var(--ink-soft); margin-bottom: 4px; }
+  .card .v { font-size: 24px; font-weight: 800; letter-spacing: -0.5px; }
+  .card .e { font-size: 11.5px; color: var(--ink-soft); margin-top: 3px; }
+  .card.warn-card { border-color: #fca5a5; background: #fff7f7; }
+  .card.warn-card .v { font-size: 15px; font-weight: 700; color: #b91c1c; line-height: 1.5; }
+
+  .chart-box { position: relative; height: 380px; }
+  .chart-box.tall { height: 420px; }
+  .legend-note { display: flex; flex-wrap: wrap; gap: 14px; font-size: 12px; color: var(--ink-soft); margin-top: 10px; }
+  .legend-note .sw { display: inline-block; width: 22px; height: 4px; border-radius: 2px; margin-right: 5px; vertical-align: middle; }
+  .callout { border-left: 4px solid var(--infer); background: #fffbeb; padding: 10px 14px; border-radius: 0 8px 8px 0; font-size: 13px; margin-top: 12px; }
+  .callout.blue { border-left-color: var(--fact); background: #eff6ff; }
+
+  table { border-collapse: collapse; width: 100%; font-size: 13px; }
+  th, td { border-bottom: 1px solid var(--line); padding: 8px 10px; text-align: right; white-space: nowrap; }
+  th { background: #f9fafb; font-weight: 700; color: #374151; }
+  th:first-child, td:first-child { text-align: left; white-space: normal; }
+  td.up { color: #b91c1c; font-weight: 600; }
+  td.down { color: #1d4ed8; font-weight: 600; }
+  .table-scroll { overflow-x: auto; }
+
+  /* 인사이트 카드 */
+  .insight { border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; margin-bottom: 16px; background: #fcfcfd; }
+  .insight h3 { font-size: 15.5px; margin: 0 0 10px; }
+  .insight .block { margin-bottom: 10px; }
+  .insight .block-title { font-size: 12px; font-weight: 700; color: var(--ink-soft); margin-bottom: 3px; letter-spacing: 0.02em; }
+  .insight ul { margin: 2px 0 0; padding-left: 18px; }
+  .insight li { margin-bottom: 3px; }
+  .lvl { display: inline-block; font-size: 11px; font-weight: 700; padding: 0 6px; border-radius: 4px; background: #eef2ff; color: #3730a3; margin-right: 6px; }
+  .insight .dept-line { background: #f5f3ff; border-radius: 8px; padding: 8px 12px; font-size: 13px; }
+
+  footer { color: var(--ink-soft); font-size: 12px; margin-top: 30px; text-align: center; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>G car VOC 월별 추이 대시보드</h1>
+  <div class="sub" id="meta-sub"></div>
+
+  <!-- 1. 헤더 카드 -->
+  <div class="cards" id="header-cards" style="margin-bottom:22px"></div>
+
+  <!-- 2. 월별 추이 라인 차트 -->
+  <section>
+    <h2>월별 VOC 추이 (19개월, 월 단위)</h2>
+    <p class="section-note">수집 기준 3구간을 색으로 구분. 구간 경계(점선)를 넘는 전월 대비 비교는 하지 않는다.</p>
+    <div class="chart-box"><canvas id="trendChart"></canvas></div>
+    <div class="legend-note" id="trend-legend"></div>
+    <div class="callout">
+      <span class="badge fact">사실</span>2026년 4월의 급증(157 → 465)은 <strong>집계 방식 변화(발췌 → 전수)</strong>이지 실제 발생 급증이 아니다.
+      <br><span class="badge fact">사실</span>2026년 6월은 <strong>9일치 진행 중</strong>인 부분 월 — 비교는 일평균 환산으로만 수행.
+    </div>
+  </section>
+
+  <!-- 3. 월별 카테고리 구성 스택 바 -->
+  <section>
+    <h2>월별 카테고리 구성 (스택 바)</h2>
+    <p class="section-note">
+      과거 1년 구간(2024.12~2025.11)은 앱 관련 5개 유형만 수집된 4개 카테고리 스택,
+      발췌 구간(2025.12~2026.03)은 Top 3 + 기타(미상, 회색) 스택,
+      전수 구간(2026.04~)은 10개 카테고리 전체 스택.
+    </p>
+    <div class="chart-box tall"><canvas id="stackChart"></canvas></div>
+  </section>
+
+  <!-- 4. 누적 분포 가로 바 -->
+  <section>
+    <h2>누적 카테고리 분포 (2024.12 ~ 2026.06, 총 3,218건)</h2>
+    <p class="section-note">노션 대시보드 확정치 기준 누적 건수와 비율. 비율 근거는 막대 끝에 병기.</p>
+    <div class="chart-box tall"><canvas id="cumChart"></canvas></div>
+  </section>
+
+  <!-- 5. 월간 비교 표 (전수 구간) -->
+  <section>
+    <h2>전수 구간 월간 비교 (2026.04 ~ 2026.06 진행분)</h2>
+    <p class="section-note">같은 수집 기준(전수) 안에서만 비교. 부분 월(2026.06)은 일평균 환산으로만 비교한다.</p>
+    <div class="table-scroll" id="full-compare"></div>
+    <div style="height:18px"></div>
+    <div class="table-scroll" id="share-compare"></div>
+  </section>
+
+  <!-- 6. 카테고리별 상세 개선 인사이트 -->
+  <section>
+    <h2>카테고리별 상세 개선 인사이트</h2>
+    <p class="section-note">
+      <span class="badge fact">사실</span>확정 수치 ·
+      <span class="badge infer">추론</span>해석/시나리오 ·
+      <span class="badge check">확인필요</span>추가 확인 필요 항목.
+      우선순위는 <span class="badge infer">추론</span> — 규모 × 전수 구간 추세 × UXD 개입 가능성 3축 기준.
+    </p>
+    <div id="insight-cards"></div>
+  </section>
+
+  <!-- 7. 반납 묶음 인사이트 -->
+  <section>
+    <h2>반납 묶음 인사이트</h2>
+    <div id="bundle-box"></div>
+  </section>
+
+  <!-- 8. 데이터 한계 -->
+  <section>
+    <h2>데이터 한계</h2>
+    <ul id="limitations"></ul>
+  </section>
+
+  <footer id="footer"></footer>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  var D = window.VOC_DATA;
+
+  /* ---------- 공통 헬퍼 ---------- */
+  function fmt(n) { return n.toLocaleString("ko-KR"); }
+  function pct(part, whole, digits) {
+    return (part / whole * 100).toFixed(digits === undefined ? 1 : digits);
+  }
+  function pctWithEvidence(part, whole) {
+    return pct(part, whole) + "% (= " + fmt(part) + "/" + fmt(whole) + ")";
+  }
+  function catLabel(key) {
+    var c = D.categories.find(function (x) { return x.key === key; });
+    return "카테고리 " + c.num + " " + c.name;
+  }
+  function regimeColor(r) {
+    return { past5: "#9ca3af", excerpt: "#f97316", full: "#2563eb" }[r];
+  }
+  function monthLabel(m) {
+    var lbl = m.ym.replace("-", ".");
+    if (m.partial) lbl += " (" + m.partialLabel + ")";
+    return lbl;
+  }
+
+  /* 카테고리 고정 색상 (모든 차트 공통) */
+  var CAT_COLORS = {
+    c1: "#4e79a7", c2: "#f28e2b", c3: "#59a14f", c4: "#e15759", c5: "#76b7b2",
+    c6: "#edc948", c7: "#b07aa1", c8: "#ff9da7", c9: "#9c755f", c10: "#86bcb6"
+  };
+  var UNKNOWN_COLOR = "#d1d5db";
+
+  /* ---------- 메타/푸터 ---------- */
+  document.getElementById("meta-sub").textContent =
+    "기간 " + D.meta.periodLabel + " · 기준: " + D.meta.source + " · 노션 대시보드가 최종 기준(source of truth)";
+  document.getElementById("footer").textContent =
+    "데이터 버전 " + D.meta.version + " · 갱신 절차는 README.md, 분류 기준은 rules/classification-rules.md 참조";
+
+  /* ---------- 1. 헤더 카드 ---------- */
+  var fullDays = D.fullRegime.days;
+  var fullTotal = D.cumulative.byRegime.full;
+  var dailyAvg = (fullTotal / fullDays).toFixed(2);
+  var cardsHtml = "";
+  cardsHtml += '<div class="card"><div class="k">누적 VOC</div><div class="v">' + fmt(D.cumulative.total) + '건</div>' +
+    '<div class="e">' + D.cumulative.byRegimeLabel + "</div></div>";
+  cardsHtml += '<div class="card"><div class="k">기간</div><div class="v">2024.12 ~ 2026.06</div>' +
+    '<div class="e">19개월 · 2026.06은 9일치 진행 중</div></div>';
+  cardsHtml += '<div class="card"><div class="k">정기(전수) 구간 일평균</div><div class="v">' + dailyAvg + '건</div>' +
+    '<div class="e">= ' + fmt(fullTotal) + "건 / " + fullDays + "일 (" + D.fullRegime.label + ")</div></div>";
+  cardsHtml += '<div class="card warn-card"><div class="k">⚠️ 수집 기준 3구간</div><div class="v">구간 간 직접 비교 금지</div>' +
+    '<div class="e">과거 1년: 5개 유형만 / 발췌: OCR·Top 3만 확인 / 전수: 10개 카테고리</div></div>';
+  document.getElementById("header-cards").innerHTML = cardsHtml;
+
+  /* ---------- 2. 월별 추이 라인 차트 ---------- */
+  var labels = D.months.map(monthLabel);
+  var totals = D.months.map(function (m) { return m.total; });
+  var regimes = D.months.map(function (m) { return m.regime; });
+
+  /* 구간 경계 인덱스 (regime이 바뀌는 지점) */
+  var boundaries = [];
+  for (var i = 1; i < regimes.length; i++) {
+    if (regimes[i] !== regimes[i - 1]) boundaries.push(i);
+  }
+
+  var regimeBandPlugin = {
+    id: "regimeBands",
+    beforeDraw: function (chart) {
+      var ctx = chart.ctx, x = chart.scales.x, area = chart.chartArea;
+      if (!x || !area) return;
+      /* 구간 배경 띠 */
+      var bandColors = { past5: "rgba(156,163,175,0.10)", excerpt: "rgba(249,115,22,0.08)", full: "rgba(37,99,235,0.07)" };
+      var start = 0;
+      for (var i = 1; i <= regimes.length; i++) {
+        if (i === regimes.length || regimes[i] !== regimes[start]) {
+          var x0 = x.getPixelForValue(start) - (start === 0 ? 0 : (x.getPixelForValue(start) - x.getPixelForValue(start - 1)) / 2);
+          var x1 = (i === regimes.length)
+            ? area.right
+            : x.getPixelForValue(i - 1) + (x.getPixelForValue(i) - x.getPixelForValue(i - 1)) / 2;
+          if (start === 0) x0 = area.left;
+          ctx.save();
+          ctx.fillStyle = bandColors[regimes[start]];
+          ctx.fillRect(x0, area.top, x1 - x0, area.bottom - area.top);
+          /* 구간 라벨 */
+          ctx.fillStyle = regimeColor(regimes[start]);
+          ctx.font = "700 11px sans-serif";
+          ctx.textAlign = "center";
+          var name = { past5: "과거 1년 (5개 유형만)", excerpt: "발췌 (OCR)", full: "전수 (10개 카테고리)" }[regimes[start]];
+          ctx.fillText(name, (x0 + x1) / 2, area.top + 14);
+          ctx.restore();
+          start = i;
+        }
+      }
+      /* 경계 점선 */
+      boundaries.forEach(function (b) {
+        var px = (x.getPixelForValue(b - 1) + x.getPixelForValue(b)) / 2;
+        ctx.save();
+        ctx.strokeStyle = "#9ca3af";
+        ctx.setLineDash([5, 4]);
+        ctx.beginPath();
+        ctx.moveTo(px, area.top);
+        ctx.lineTo(px, area.bottom);
+        ctx.stroke();
+        ctx.restore();
+      });
+    },
+    afterDraw: function (chart) {
+      /* 2026.04 주석 */
+      var ctx = chart.ctx, x = chart.scales.x, y = chart.scales.y;
+      var idx = D.months.findIndex(function (m) { return m.ym === "2026-04"; });
+      if (idx < 0) return;
+      var px = x.getPixelForValue(idx), py = y.getPixelForValue(totals[idx]);
+      ctx.save();
+      ctx.font = "600 11px sans-serif";
+      ctx.fillStyle = "#b45309";
+      ctx.textAlign = "right";
+      ctx.fillText("집계 방식 변화(발췌→전수)", px - 14, py + 26);
+      ctx.fillText("— 실제 발생 급증 아님", px - 14, py + 39);
+      ctx.strokeStyle = "#b45309";
+      ctx.setLineDash([2, 2]);
+      ctx.beginPath();
+      ctx.moveTo(px - 10, py + 22);
+      ctx.lineTo(px - 1, py + 6);
+      ctx.stroke();
+      ctx.restore();
+    }
+  };
+
+  new Chart(document.getElementById("trendChart"), {
+    type: "line",
+    data: {
+      labels: labels,
+      datasets: [{
+        label: "월별 VOC 건수",
+        data: totals,
+        borderWidth: 2.5,
+        tension: 0.25,
+        pointRadius: D.months.map(function (m) { return m.partial ? 6 : 4; }),
+        pointBackgroundColor: regimes.map(function (r, i) {
+          return D.months[i].partial ? "#ffffff" : regimeColor(r);
+        }),
+        pointBorderColor: regimes.map(regimeColor),
+        pointBorderWidth: D.months.map(function (m) { return m.partial ? 2.5 : 1.5; }),
+        segment: {
+          borderColor: function (ctx) {
+            var r0 = regimes[ctx.p0DataIndex], r1 = regimes[ctx.p1DataIndex];
+            return r0 === r1 ? regimeColor(r1) : "#c4c8cf";
+          },
+          borderDash: function (ctx) {
+            return regimes[ctx.p0DataIndex] === regimes[ctx.p1DataIndex] ? undefined : [6, 5];
+          }
+        }
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      layout: { padding: { top: 24 } },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: function (ctx) {
+              var m = D.months[ctx.dataIndex];
+              var lines = ["VOC " + fmt(m.total) + "건"];
+              lines.push("수집 기준: " + D.regimes[m.regime].label);
+              if (m.partial) lines.push("⚠ " + m.partialLabel + " — 비교는 일평균 환산만");
+              if (m.regime === "full" && m.days) {
+                lines.push("일평균 " + (m.total / m.days).toFixed(2) + "건 (= " + fmt(m.total) + "/" + m.days + "일)");
+              }
+              return lines;
+            }
+          }
+        }
+      },
+      scales: {
+        y: { beginAtZero: true, title: { display: true, text: "건수 (월 단위)" } },
+        x: { ticks: { maxRotation: 60, minRotation: 45 } }
+      }
+    },
+    plugins: [regimeBandPlugin]
+  });
+
+  var legendHtml = "";
+  ["past5", "excerpt", "full"].forEach(function (r) {
+    legendHtml += '<span><span class="sw" style="background:' + regimeColor(r) + '"></span>' +
+      D.regimes[r].label + " (" + D.regimes[r].range + ")</span>";
+  });
+  legendHtml += '<span><span class="sw" style="background:repeating-linear-gradient(90deg,#c4c8cf 0 6px,transparent 6px 11px)"></span>구간 경계 — 전월 대비 비교 금지</span>';
+  document.getElementById("trend-legend").innerHTML = legendHtml;
+
+  /* ---------- 3. 월별 카테고리 구성 스택 바 ---------- */
+  var stackDatasets = D.categories.map(function (c) {
+    return {
+      label: catLabel(c.key),
+      backgroundColor: CAT_COLORS[c.key],
+      data: D.months.map(function (m) {
+        return (m.categories[c.key] !== undefined) ? m.categories[c.key] : null;
+      })
+    };
+  });
+  stackDatasets.push({
+    label: "기타(미상) — 발췌 구간 분포 미확인분",
+    backgroundColor: UNKNOWN_COLOR,
+    data: D.months.map(function (m) { return m.unknown !== undefined ? m.unknown : null; })
+  });
+
+  new Chart(document.getElementById("stackChart"), {
+    type: "bar",
+    data: { labels: labels, datasets: stackDatasets },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { position: "bottom", labels: { boxWidth: 12, font: { size: 10.5 } } },
+        tooltip: {
+          filter: function (item) { return item.raw !== null && item.raw !== 0; },
+          callbacks: {
+            footer: function (items) {
+              if (!items.length) return "";
+              var m = D.months[items[0].dataIndex];
+              var f = "월 합계 " + fmt(m.total) + "건 · " + D.regimes[m.regime].label;
+              if (m.partial) f += " · " + m.partialLabel;
+              return f;
+            }
+          }
+        }
+      },
+      scales: {
+        x: { stacked: true, ticks: { maxRotation: 60, minRotation: 45 } },
+        y: { stacked: true, beginAtZero: true, title: { display: true, text: "건수 (월 단위)" } }
+      }
+    }
+  });
+
+  /* ---------- 4. 누적 분포 가로 바 ---------- */
+  var cumEntries = Object.keys(D.cumulative.byCategory)
+    .map(function (k) { return { key: k, count: D.cumulative.byCategory[k] }; })
+    .sort(function (a, b) { return b.count - a.count; });
+
+  var cumLabelPlugin = {
+    id: "cumLabels",
+    afterDatasetsDraw: function (chart) {
+      var ctx = chart.ctx;
+      var meta = chart.getDatasetMeta(0);
+      meta.data.forEach(function (bar, i) {
+        var e = cumEntries[i];
+        var text = fmt(e.count) + "건 · " + pct(e.count, D.cumulative.total) + "% (= " + fmt(e.count) + "/" + fmt(D.cumulative.total) + ")";
+        ctx.save();
+        ctx.font = "600 11px sans-serif";
+        ctx.fillStyle = "#374151";
+        ctx.textAlign = "left";
+        ctx.textBaseline = "middle";
+        ctx.fillText(text, bar.x + 8, bar.y);
+        ctx.restore();
+      });
+    }
+  };
+
+  new Chart(document.getElementById("cumChart"), {
+    type: "bar",
+    data: {
+      labels: cumEntries.map(function (e) { return catLabel(e.key); }),
+      datasets: [{
+        data: cumEntries.map(function (e) { return e.count; }),
+        backgroundColor: cumEntries.map(function (e) { return CAT_COLORS[e.key]; }),
+        borderRadius: 4
+      }]
+    },
+    options: {
+      indexAxis: "y",
+      responsive: true, maintainAspectRatio: false,
+      layout: { padding: { right: 230 } },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: function (ctx) {
+              var e = cumEntries[ctx.dataIndex];
+              return fmt(e.count) + "건 — 전체의 " + pctWithEvidence(e.count, D.cumulative.total);
+            }
+          }
+        }
+      },
+      scales: {
+        x: { beginAtZero: true, title: { display: true, text: "누적 건수" } },
+        y: { ticks: { font: { size: 11.5 }, autoSkip: false } }
+      }
+    },
+    plugins: [cumLabelPlugin]
+  });
+
+  /* ---------- 5. 전수 구간 월간 비교 표 ---------- */
+  var fullMonths = D.months.filter(function (m) { return m.regime === "full"; });
+
+  var t1 = '<table><thead><tr><th>월</th><th>건수</th><th>일수</th><th>일평균 (근거)</th><th>일평균 전월 대비</th></tr></thead><tbody>';
+  fullMonths.forEach(function (m, i) {
+    var avg = m.total / m.days;
+    var momCell = "—";
+    var cls = "";
+    if (i > 0) {
+      var prevAvg = fullMonths[i - 1].total / fullMonths[i - 1].days;
+      var delta = (avg - prevAvg) / prevAvg * 100;
+      cls = delta > 0 ? "up" : "down";
+      momCell = (delta > 0 ? "+" : "") + delta.toFixed(1) + "%";
+      if (m.partial) momCell += " <span class='badge check'>확인필요</span><span style='font-weight:400;color:#6b7280'>진행분 기준 참고치</span>";
+    }
+    t1 += "<tr><td>" + monthLabel(m) + (m.partial ? ' <span class="badge warn">부분 월</span>' : "") + "</td>" +
+      "<td>" + fmt(m.total) + "건</td><td>" + m.days + "일</td>" +
+      "<td>" + avg.toFixed(2) + "건 (= " + fmt(m.total) + "/" + m.days + "일)</td>" +
+      '<td class="' + cls + '">' + momCell + "</td></tr>";
+  });
+  t1 += "</tbody></table>";
+  document.getElementById("full-compare").innerHTML =
+    "<strong>월 총량 → 일평균 환산 비교</strong> <span class='badge fact'>사실</span>" + t1;
+
+  /* 카테고리 비중 변동 표 */
+  var t2 = '<table><thead><tr><th>카테고리 (정식 분류명)</th>';
+  fullMonths.forEach(function (m) { t2 += "<th>" + monthLabel(m) + " 비중</th>"; });
+  t2 += "<th>5월−4월 (pp)</th><th>6월 진행분−5월 (pp)</th></tr></thead><tbody>";
+  D.categories.forEach(function (c) {
+    var shares = fullMonths.map(function (m) { return m.categories[c.key] / m.total * 100; });
+    t2 += "<tr><td>" + catLabel(c.key) + "</td>";
+    fullMonths.forEach(function (m, i) {
+      t2 += "<td>" + shares[i].toFixed(1) + "% <span style='color:#9ca3af;font-size:11px'>(= " + fmt(m.categories[c.key]) + "/" + fmt(m.total) + ")</span></td>";
+    });
+    var d1 = shares[1] - shares[0];
+    var d2 = shares[2] - shares[1];
+    t2 += '<td class="' + (d1 > 0 ? "up" : "down") + '">' + (d1 > 0 ? "+" : "") + d1.toFixed(1) + "pp</td>";
+    t2 += '<td class="' + (d2 > 0 ? "up" : "down") + '">' + (d2 > 0 ? "+" : "") + d2.toFixed(1) + "pp</td></tr>";
+  });
+  t2 += "</tbody></table>";
+  document.getElementById("share-compare").innerHTML =
+    "<strong>카테고리 비중 변동 (전수 구간 내)</strong> <span class='badge fact'>사실</span> " +
+    "<span style='color:#6b7280;font-size:12px'>— 6월 진행분 열은 9일치 기준 참고치</span>" + t2;
+
+  /* ---------- 6. 카테고리별 상세 개선 인사이트 ---------- */
+  function li(items, badgeClass, badgeText) {
+    return items.map(function (t) {
+      return "<li>" + (badgeClass ? '<span class="badge ' + badgeClass + '">' + badgeText + "</span>" : "") + t + "</li>";
+    }).join("");
+  }
+
+  var insightHtml = "";
+  D.insights.forEach(function (ins) {
+    var c = D.categories.find(function (x) { return x.key === ins.key; });
+    insightHtml += '<div class="insight">';
+    insightHtml += "<h3>" + catLabel(ins.key) +
+      ' <span class="badge tier">우선순위: ' + ins.priorityTier + ' <span style="font-weight:400">[추론]</span></span>' +
+      (c.createdAt ? ' <span class="badge check">신설 ' + c.createdAt + "</span>" : "") +
+      "</h3>";
+
+    insightHtml += '<div class="block"><div class="block-title">현황</div><ul>' + li(ins.facts, "fact", "사실") + "</ul></div>";
+    insightHtml += '<div class="block"><div class="block-title">추이 해석 (시나리오)</div><ul>' + li(ins.scenarios, "infer", "추론") + "</ul></div>";
+    insightHtml += '<div class="block"><div class="block-title">핵심 마찰 지점 (사용자 여정 매핑)</div><ul>' + li(ins.frictions) + "</ul></div>";
+
+    insightHtml += '<div class="block"><div class="block-title">UXD 개선안</div><ul>' +
+      ins.improvements.map(function (im) {
+        return '<li><span class="lvl">' + im.level + "</span>" + im.text + "</li>";
+      }).join("") + "</ul></div>";
+
+    if (ins.otherDept) {
+      insightHtml += '<div class="block"><div class="dept-line"><span class="badge dept">타 부서 의제</span>' + ins.otherDept + "</div></div>";
+    }
+
+    insightHtml += '<div class="block"><div class="block-title">우선순위 근거 (3축)</div>' +
+      '<span class="badge infer">추론</span>' + ins.priorityRationale + "</div>";
+    insightHtml += '<div class="block"><div class="block-title">검증 방법</div>' + ins.validation + "</div>";
+
+    if (ins.checks && ins.checks.length) {
+      insightHtml += '<div class="block"><div class="block-title">확인 필요</div><ul>' + li(ins.checks, "check", "확인필요") + "</ul></div>";
+    }
+    insightHtml += "</div>";
+  });
+  document.getElementById("insight-cards").innerHTML = insightHtml;
+
+  /* ---------- 7. 반납 묶음 인사이트 ---------- */
+  var b = D.returnBundle;
+  var bundleNames = b.keys.map(catLabel).join(" + ");
+  var bundleHtml =
+    '<div class="callout blue" style="margin-top:0">' +
+    '<span class="badge fact">사실</span><strong>' + bundleNames + " = " + fmt(b.total) + "건 (" + b.evidence + ")</strong>" +
+    " — 단일 최대 페인포인트 묶음.<br>" +
+    '<span class="badge fact">사실</span>과거 1년 구간에서도 반납 관련 비중 ' + b.past5Share + " (" + b.past5ShareSource + ")로 방향이 일치한다.<br>" +
+    '<span class="badge infer">추론</span>수집 기준이 세 번 바뀌는 동안에도 반납 단계가 일관되게 최대 마찰 지점으로 나타나므로, ' +
+    "반납 경험(사진 절차 → 만차/위치 → 특수 상황 안내)을 하나의 여정으로 묶어 설계 개선하는 것이 효과적일 것으로 본다." +
+    "</div>";
+  document.getElementById("bundle-box").innerHTML = bundleHtml;
+
+  /* ---------- 8. 데이터 한계 ---------- */
+  document.getElementById("limitations").innerHTML = D.limitations.map(function (t) {
+    return '<li style="margin-bottom:6px"><span class="badge fact">사실</span>' + t + "</li>";
+  }).join("");
+})();
+</script>
+</body>
+</html>
