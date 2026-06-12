@@ -186,7 +186,7 @@
 
   <!-- 누적 분포 -->
   <section id="sec-cum">
-    <div class="s-head"><h2>누적 카테고리 분포</h2><span class="h-meta">2024.12 ~ 2026.06 · 총 3,218건</span></div>
+    <div class="s-head"><h2>누적 카테고리 분포</h2><span class="h-meta" id="cum-meta">2024.12 ~ 2026.06</span></div>
     <p class="s-note">확정 집계 기준 누적 건수·비율 (비율 근거는 값 뒤에 병기). 구성 비교이므로 구간 차이 영향이 적습니다.</p>
     <div class="panel"><div id="cumDist" class="dist"></div></div>
   </section>
@@ -255,6 +255,8 @@
 (function () {
   "use strict";
   var D = window.VOC_DATA;
+  var partialMonth = D.months.filter(function (m) { return m.partial; }).pop();
+  function pmMon() { return partialMonth ? parseInt(partialMonth.ym.split("-")[1], 10) + "월" : ""; }
 
   function fmt(n) { return n.toLocaleString("ko-KR"); }
   function pct(p, w, d) { return (p / w * 100).toFixed(d === undefined ? 1 : d); }
@@ -278,6 +280,7 @@
   }
 
   document.getElementById("meta-sub").textContent = "기간 " + D.meta.periodLabel + " · 기준 " + D.meta.source + " · 확정 집계가 기준(data.js가 기록 원천)";
+  document.getElementById("cum-meta").textContent = "2024.12 ~ 2026.06 · 총 " + fmt(D.cumulative.total) + "건";
   document.getElementById("footer").textContent = "데이터 버전 " + D.meta.version + " · 갱신 절차 README.md · 분류 기준 rules/classification-rules.md";
 
   /* ── KPI ── */
@@ -285,7 +288,7 @@
   var dailyAvg = (fullTotal / fullDays).toFixed(2);
   var kpi = "";
   kpi += '<div class="kpi"><div class="k">누적 VOC</div><div class="v">' + fmt(D.cumulative.total) + '<small> 건</small></div><div class="e">' + D.cumulative.byRegimeLabel + '</div></div>';
-  kpi += '<div class="kpi"><div class="k">기간</div><div class="v" style="font-size:19px">2024.12–2026.06</div><div class="e">19개월 · 6월은 9일치 진행 중</div></div>';
+  kpi += '<div class="kpi"><div class="k">기간</div><div class="v" style="font-size:19px">2024.12–2026.06</div><div class="e">' + D.meta.monthCount + '개월 · ' + (partialMonth ? pmMon() + '은 ' + partialMonth.partialLabel : '') + '</div></div>';
   kpi += '<div class="kpi"><div class="k">전수 구간 일평균</div><div class="v">' + dailyAvg + '<small> 건</small></div><div class="e">= ' + fmt(fullTotal) + ' / ' + fullDays + '일</div></div>';
   kpi += '<div class="kpi warn"><div class="k">⚠ 수집 기준 3구간</div><div class="v">구간 간 직접 비교 금지</div><div class="e">과거 1년 5유형 · 발췌 Top3 · 전수 10개</div></div>';
   document.getElementById("kpis").innerHTML = kpi;
@@ -327,7 +330,7 @@
     t2 += "<td class='" + (d1 > 0 ? "up" : "down") + "'>" + (d1 > 0 ? "+" : "") + d1.toFixed(1) + "pp</td><td class='" + (d2 > 0 ? "up" : "down") + "'>" + (d2 > 0 ? "+" : "") + d2.toFixed(1) + "pp</td></tr>";
   });
   t2 += "</tbody></table>";
-  document.getElementById("share-compare").innerHTML = '<p class="tbl-cap">카테고리 비중 변동 (전수 구간 내) <span class="badge fact">사실</span> <span class="ev">— 6월 진행분은 9일치 참고치</span></p>' + t2;
+  document.getElementById("share-compare").innerHTML = '<p class="tbl-cap">카테고리 비중 변동 (전수 구간 내) <span class="badge fact">사실</span> <span class="ev">— ' + (partialMonth ? pmMon() + ' 진행분은 ' + partialMonth.days + '일치 참고치' : '') + '</span></p>' + t2;
 
   /* ── 누적 분포 (HTML 바 + 캡슐 태그) ── */
   var cumEntries = Object.keys(D.cumulative.byCategory).map(function (k) { return { key: k, count: D.cumulative.byCategory[k] }; }).sort(function (a, b) { return b.count - a.count; });
@@ -402,7 +405,7 @@
   });
   document.getElementById("trend-legend").innerHTML =
     '<span><span class="sw" style="background:repeating-linear-gradient(90deg,#c2c6cc 0 5px,transparent 5px 10px)"></span>선이 끊긴 구간끼리는 비교 금지</span>' +
-    '<span>흰 점 = 부분 월(2026.06, 9일치 진행 중)</span>';
+    '<span>흰 점 = 부분 월(' + (partialMonth ? partialMonth.ym.replace("-", ".") + ", " + partialMonth.partialLabel : "") + ')</span>';
 
   /* ── 인사이트 접이식 카드 ── */
   function liList(items, bc, bt) { return items.map(function (t) { return "<li>" + (bc ? '<span class="badge ' + bc + '">' + bt + "</span>" : "") + t + "</li>"; }).join(""); }
