@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>G car VOC 월별 추이 대시보드</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text x='50' y='52' font-size='80' text-anchor='middle' dominant-baseline='central'>🚗</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text x='50' y='52' font-size='80' text-anchor='middle' dominant-baseline='central'>📊</text></svg>">
 <script src="lib/chart.umd.js"></script>
 <script src="data.js"></script>
 <style>
@@ -157,7 +157,7 @@
   <!-- 전수 구간 현황 (비교 가능 구간을 최상단으로) -->
   <section id="sec-full">
     <div class="s-head"><h2>전수 구간 현황</h2><span class="h-meta">2026.04 ~ 2026.06 진행분</span><span class="tag-ok">시계열 비교 가능 구간</span></div>
-    <p class="s-note">수집 방식이 동일한 전수 구간만 직접 비교합니다. 부분 월(2026.06)은 일평균 환산으로만 비교합니다.</p>
+    <p class="s-note">수집 방식이 동일한 전수 구간만 직접 비교합니다. 부분 월(2026.06)은 일평균 환산으로만 비교합니다. <b>절대 건수 기준</b> — 이용량(분모) 데이터가 없어 'VOC 율'이 아닌 건수로 해석합니다(증감이 실제 불만 증가인지 이용량 증가인지 구분 불가).</p>
     <div class="panel">
       <p class="tbl-cap">일평균 추이 <span class="badge fact">사실</span> <span class="ev">— 월 총량을 일수로 나눈 값(부분 월 공정 비교)</span></p>
       <div class="chart-box short"><canvas id="dailyAvgChart"></canvas></div>
