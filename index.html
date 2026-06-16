@@ -145,6 +145,54 @@
   .dist-val { font-size: 12px; color: var(--ink-2); white-space: nowrap; font-variant-numeric: tabular-nums; }
   .dist-val b { color: var(--ink); font-weight: 800; }
 
+  /* VOC 부제 + 온보딩 + 결론 박스 + 용어풀이 */
+  header.top .voc-sub { font-size: 13px; color: var(--ink-2); margin: 2px 0 4px; }
+  header.top .voc-sub b { color: var(--ink); }
+
+  .ob-purpose { font-size: 13.5px; color: var(--ink); line-height: 1.65; margin: 2px 0 12px; }
+  .ob-h { font-size: 11.5px; font-weight: 800; color: var(--ink-3); letter-spacing: .03em; margin: 14px 0 6px; }
+  .ob-list { margin: 0; padding-left: 18px; }
+  .ob-list li { margin-bottom: 6px; color: var(--ink-2); }
+  .scope-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 4px; }
+  .scope-box { border: 1px solid var(--line); border-radius: 10px; padding: 11px 13px; }
+  .scope-box.in { background: #f1f7f3; border-color: #d9e9dd; }
+  .scope-box.out { background: #faf6f2; border-color: #ecdfd0; }
+  .scope-box .sb-t { font-size: 12px; font-weight: 800; margin-bottom: 6px; }
+  .scope-box.in .sb-t { color: #2f7d4f; }
+  .scope-box.out .sb-t { color: #b4540a; }
+  .scope-box ul { margin: 0; padding-left: 16px; }
+  .scope-box li { margin-bottom: 4px; font-size: 12px; color: var(--ink-2); }
+  .badge-defs { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 6px; }
+  .badge-def { font-size: 12px; color: var(--ink-2); }
+  .gloss { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 18px; margin-top: 6px; }
+  .gloss dt { font-weight: 700; font-size: 12px; color: var(--ink); margin-top: 7px; }
+  .gloss dd { margin: 1px 0 0; font-size: 12px; color: var(--ink-2); }
+
+  .concl { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 6px 6px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; }
+  .concl-item { padding: 14px 16px; border-right: 1px solid var(--line-2); }
+  .concl-item:last-child { border-right: none; }
+  .concl-item .ci-k { font-size: 11.5px; color: var(--ink-3); margin-bottom: 6px; font-weight: 700; }
+  .concl-item .ci-v { font-size: 14.5px; font-weight: 700; color: var(--ink); line-height: 1.45; letter-spacing: -0.2px; }
+  .concl-item .ci-v b { color: var(--fact); font-weight: 800; }
+  .concl-item .ci-e { font-size: 11px; color: var(--ink-3); margin-top: 6px; }
+  .concl-note { font-size: 12.5px; color: var(--ink-2); margin: 11px 2px 0; }
+  .concl-note .badge { vertical-align: middle; }
+
+  /* 인사이트 카드 — 쉬운 말 한 줄 뜻(요약 부제) + 쉬운 불편/개선 */
+  .sum-line { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1 1 220px; }
+  .sum-one { font-size: 12px; color: var(--ink-2); font-weight: 400; line-height: 1.45; }
+  .i-lead { background: #f8fafc; border: 1px solid var(--line-2); border-radius: 10px; padding: 11px 13px 12px; margin-top: 12px; }
+  .i-lead .bt { color: var(--accent); }
+  .plainbadge { display: inline-block; font-size: 10px; font-weight: 800; color: #2f7d4f; background: #e7f4ec; padding: 1px 7px; border-radius: 5px; margin-left: 6px; vertical-align: middle; }
+
+  @media (max-width: 620px) {
+    .scope-grid { grid-template-columns: 1fr; }
+    .gloss { grid-template-columns: 1fr; }
+    .concl { grid-template-columns: 1fr; }
+    .concl-item { border-right: none; border-bottom: 1px solid var(--line-2); }
+    .concl-item:last-child { border-bottom: none; }
+  }
+
   footer { color: var(--ink-3); font-size: 11.5px; margin-top: 34px; text-align: center; }
 
   @media (max-width: 620px) { .sum-right { width: 100%; margin-left: 0; } .kpi .v { font-size: 22px; } .dist-row { grid-template-columns: 1fr; gap: 5px; } .dist-bar { height: 12px; } }
@@ -154,28 +202,67 @@
 <div class="wrap">
 
   <header class="top">
-    <h1>G car VOC 월별 추이 대시보드</h1>
+    <h1>G car 사용자 후기(VOC) 대시보드</h1>
+    <div class="voc-sub">앱에서 <b>고칠 수 있는 불편</b>을 찾는 화면 · <b>VOC</b> = 고객의 소리(사용자 후기·불만)</div>
     <div class="sub" id="meta-sub"></div>
   </header>
 
   <nav class="toc">
-    <a href="#sec-full">전수 구간 현황</a>
-    <a href="#sec-cum">누적 분포</a>
-    <a href="#sec-stack">카테고리 구성</a>
-    <a href="#sec-trend">수집 이력</a>
+    <a href="#sec-summary">한눈에 결론</a>
     <a href="#sec-insight">개선 인사이트</a>
     <a href="#sec-bundle">반납 묶음</a>
+    <a href="#sec-full">최근 3개월 비교</a>
+    <a href="#sec-cum">전체 누적 분포</a>
+    <a href="#sec-stack">월별 구성</a>
+    <a href="#sec-trend">19개월 추이</a>
     <a href="#sec-limit">데이터 한계</a>
   </nav>
 
+  <!-- 처음 보세요? (온보딩 + 용어 풀이) -->
+  <details class="plain" id="onboard" style="margin-bottom:16px">
+    <summary>📖 처음 보시나요? — 이 대시보드 읽는 법 · 용어 풀이</summary>
+    <div class="p-body" id="onboard-body"></div>
+  </details>
+
+  <!-- 한눈에 보는 결론 -->
+  <section id="sec-summary">
+    <div class="s-head"><h2>한눈에 보는 결론</h2><span class="h-meta">먼저 이것부터</span></div>
+    <div id="concl-box"></div>
+  </section>
+
   <div class="kpis" id="kpis" style="margin-bottom:30px"></div>
 
-  <!-- 전수 구간 현황 (비교 가능 구간을 최상단으로) -->
+  <!-- 인사이트 (가장 중요 — 결론 바로 다음) -->
+  <section id="sec-insight">
+    <div class="s-head"><h2>카테고리별 개선 인사이트</h2><span class="h-meta">카드를 누르면 '무슨 뜻·어떤 불편·어떻게 고치나'가 열립니다</span></div>
+    <p class="s-note">
+      파란 <span class="badge fact">사실</span>은 확정된 숫자, 주황 <span class="badge infer">추론</span>은 담당자의 해석·짐작, 회색 <span class="badge check">확인필요</span>는 더 알아봐야 할 점.
+      <b>심각도</b>는 후기 내용을 보고 매긴 <b>짐작값</b>입니다(잰 값 아님 — 나중에 실제 집계로 바로잡을 수 있음).
+    </p>
+    <div class="toolbar">
+      <div class="sortbar">
+        <span class="lbl">정렬</span>
+        <button data-sort="prio" class="active">먼저 손볼 순서</button>
+        <button data-sort="freq">많이 나온 순</button>
+        <button data-sort="fxs">많고 심각한 순</button>
+      </div>
+      <button class="expand" id="toggle-all">모두 펼치기</button>
+    </div>
+    <div id="insight-cards"></div>
+  </section>
+
+  <!-- 반납 묶음 -->
+  <section id="sec-bundle">
+    <div class="s-head"><h2>반납 묶음 인사이트</h2><span class="h-meta">가장 큰 불편 덩어리</span></div>
+    <div id="bundle-box"></div>
+  </section>
+
+  <!-- 최근 3개월 비교 (같은 방법으로 모은 구간) -->
   <section id="sec-full">
-    <div class="s-head"><h2>전수 구간 현황</h2><span class="h-meta">2026.04 ~ 2026.06 진행분</span><span class="tag-ok">시계열 비교 가능 구간</span></div>
-    <p class="s-note">수집 방식이 동일한 전수 구간만 직접 비교합니다. 부분 월(2026.06)은 일평균 환산으로만 비교합니다. <b>절대 건수 기준</b> — 이용량(분모) 데이터가 없어 'VOC 율'이 아닌 건수로 해석합니다(증감이 실제 불만 증가인지 이용량 증가인지 구분 불가).</p>
+    <div class="s-head"><h2>최근 3개월(2026.4~6) 비교</h2><span class="h-meta">같은 방법으로 모은 시기</span><span class="tag-ok">비교해도 되는 구간</span></div>
+    <p class="s-note">후기를 같은 방법으로 모은 시기라 안심하고 비교할 수 있습니다. 아직 안 끝난 달(2026.6)은 <b>하루 평균</b>으로 바꿔 비교합니다. 후기 <b>건수</b>만 셉니다 — 차를 몇 번 빌렸는지(이용량) 자료가 없어, 후기가 는 게 진짜 불만 증가인지 이용자가 늘어서인지는 구분할 수 없습니다.</p>
     <div class="panel">
-      <p class="tbl-cap">일평균 추이 <span class="badge fact">사실</span> <span class="ev">— 월 총량을 일수로 나눈 값(부분 월 공정 비교)</span></p>
+      <p class="tbl-cap">하루 평균 추이 <span class="badge fact">사실</span> <span class="ev">— 한 달 건수를 그 달 날짜 수로 나눈 값(안 끝난 달도 공정 비교)</span></p>
       <div class="chart-box short"><canvas id="dailyAvgChart"></canvas></div>
       <div style="height:18px"></div>
       <div class="table-scroll" id="full-compare"></div>
@@ -186,62 +273,35 @@
 
   <!-- 누적 분포 -->
   <section id="sec-cum">
-    <div class="s-head"><h2>누적 카테고리 분포</h2><span class="h-meta" id="cum-meta">2024.12 ~ 2026.06</span></div>
-    <p class="s-note">확정 집계 기준 누적 건수·비율 (비율 근거는 값 뒤에 병기). 구성 비교이므로 구간 차이 영향이 적습니다.</p>
+    <div class="s-head"><h2>전체 누적 분포</h2><span class="h-meta" id="cum-meta">2024.12 ~ 2026.06</span></div>
+    <p class="s-note">지금까지 쌓인 카테고리별 건수·비율입니다. 막대 옆 괄호 안 분수(예: =2,117/3,269)는 비율 계산식이에요. '전체 중 무엇이 큰가'를 보는 것이라 수집 방법 차이 영향이 적습니다.</p>
     <div class="panel"><div id="cumDist" class="dist"></div></div>
   </section>
 
   <!-- 카테고리 구성 -->
   <section id="sec-stack">
-    <div class="s-head"><h2>월별 카테고리 구성</h2><span class="h-meta">스택 바 · 월 단위</span></div>
-    <p class="s-note">과거 1년(4유형) · 발췌(Top 3 + 기타 미상) · 전수(10개) — 구간마다 잡히는 카테고리 수가 다릅니다(구성 비율로만 해석).</p>
+    <div class="s-head"><h2>월별 카테고리 구성</h2><span class="h-meta">쌓은 막대 · 월 단위</span></div>
+    <p class="s-note">과거 1년(5종류를 모았고 그중 4종류만 지금 카테고리에 들어맞음) · 발췌(상위 3개 + 기타) · 전수(10개) — 시기마다 잡히는 카테고리 수가 다릅니다. '한 달 안에서의 구성 비율'로만 보세요.</p>
     <div class="panel"><div class="chart-box tall"><canvas id="stackChart"></canvas></div><div id="stack-legend" class="cap-legend"></div></div>
   </section>
 
   <!-- 월별 수집 이력 (추이 차트를 참고용으로 격하 + 구간 끊어그리기) -->
   <section id="sec-trend">
-    <div class="s-head"><h2>월별 수집 이력</h2><span class="h-meta">19개월 · 월 단위</span><span class="tag-care">참고용 — 추세로 읽지 말 것</span></div>
-    <p class="s-note">수집 방식이 3번 바뀌어, 구간을 넘는 증감은 실제 변화가 아니라 집계 방식 차이일 수 있습니다. 그래서 구간별로 <b>선을 끊어</b> 표시합니다.</p>
+    <div class="s-head"><h2>전체 19개월 추이</h2><span class="h-meta">2024.12 ~ 2026.06</span><span class="tag-care">참고용 — 방법이 바뀌어 흐름으로 읽지 마세요</span></div>
+    <p class="s-note">후기 모으는 방법이 3번 바뀌어, 시기를 넘는 증감은 실제 변화가 아니라 모으는 방법이 달라서일 수 있습니다. 그래서 방법이 바뀐 구간마다 <b>선을 끊어</b> 그렸습니다 — 끊긴 선끼리는 비교하지 마세요.</p>
     <div class="panel">
       <div class="chart-box"><canvas id="trendChart"></canvas></div>
       <div class="legend-note" id="trend-legend"></div>
       <div class="callout warn">
-        <span class="badge fact">사실</span>2026년 4월(전수 첫 달) 465건은 <b>집계 방식 변화(발췌→전수)</b>의 결과이지 실제 발생 급증이 아닙니다.
-        선이 끊긴 구간은 <b>서로 비교하지 마세요.</b>
+        <span class="badge fact">사실</span>2026년 4월에 후기 모으는 방법을 <b>'빠짐없이 다 모으기(전수)'</b>로 바꿔 465건으로 커 보일 뿐, 실제로 불만이 늘어난 게 아닙니다.
+        선이 끊긴 구간끼리는 <b>비교하지 마세요.</b>
       </div>
     </div>
-  </section>
-
-  <!-- 인사이트 -->
-  <section id="sec-insight">
-    <div class="s-head"><h2>카테고리별 개선 인사이트</h2><span class="h-meta">카드를 누르면 상세가 열립니다</span></div>
-    <p class="s-note">
-      <span class="badge fact">사실</span>확정 수치 ·
-      <span class="badge infer">추론</span>해석·심각도·우선순위 ·
-      <span class="badge check">확인필요</span>추가 확인.
-      <b>심각도</b>는 마찰 지점 기반 <span class="badge infer">추론</span>값(측정 아님) — 확정 집계로 교정 대상입니다.
-    </p>
-    <div class="toolbar">
-      <div class="sortbar">
-        <span class="lbl">정렬</span>
-        <button data-sort="prio" class="active">우선순위</button>
-        <button data-sort="freq">빈도순</button>
-        <button data-sort="fxs">빈도 × 심각도</button>
-      </div>
-      <button class="expand" id="toggle-all">모두 펼치기</button>
-    </div>
-    <div id="insight-cards"></div>
-  </section>
-
-  <!-- 반납 묶음 -->
-  <section id="sec-bundle">
-    <div class="s-head"><h2>반납 묶음 인사이트</h2></div>
-    <div id="bundle-box"></div>
   </section>
 
   <!-- 데이터 한계 -->
   <section id="sec-limit">
-    <div class="s-head"><h2>데이터 한계</h2></div>
+    <div class="s-head"><h2>이 숫자를 어디까지 믿어야 하나</h2><span class="h-meta">데이터 한계</span></div>
     <details class="plain" id="limit-details">
       <summary><span id="limit-summary"></span></summary>
       <div class="p-body"><ul id="limitations"></ul></div>
@@ -279,9 +339,39 @@
     return { pts: pts, dir: last > first + 0.05 ? "up" : (last < first - 0.05 ? "down" : "flat"), first: first, last: last };
   }
 
-  document.getElementById("meta-sub").textContent = "기간 " + D.meta.periodLabel + " · 기준 " + D.meta.source + " · 확정 집계가 기준(data.js가 기록 원천)";
+  document.getElementById("meta-sub").textContent = "기간 " + D.meta.periodLabel + " · 확정된 집계 기록 기준 (" + D.meta.version + ")";
   document.getElementById("cum-meta").textContent = "2024.12 ~ 2026.06 · 총 " + fmt(D.cumulative.total) + "건";
   document.getElementById("footer").textContent = "데이터 버전 " + D.meta.version + " · 갱신 절차 README.md · 분류 기준 rules/classification-rules.md";
+
+  /* ── 온보딩(처음 보세요) + 용어 풀이 ── */
+  var g = D.guide;
+  var ob = '<div class="ob-purpose">' + g.purpose + '</div>';
+  ob += '<div class="ob-h">읽는 법</div><ul class="ob-list">' + g.howToRead.map(function (t) { return "<li>" + t + "</li>"; }).join("") + "</ul>";
+  ob += '<div class="ob-h">이 대시보드가 다루는 것 / 다루지 않는 것</div><div class="scope-grid">';
+  ob += '<div class="scope-box in"><div class="sb-t">✅ 다룸 — 앱·안내로 고칠 수 있는 후기</div><ul><li>' + g.inScopeNote.replace("다루는 것: ", "") + '</li></ul></div>';
+  ob += '<div class="scope-box out"><div class="sb-t">⛔ 안 다룸 — 다른 팀 영역</div><ul>' + g.outScope.map(function (t) { return "<li>" + t + "</li>"; }).join("") + '</ul></div>';
+  ob += '</div>';
+  ob += '<div class="ob-h">표시(배지) 뜻</div><div class="badge-defs">' +
+    '<span class="badge-def"><span class="badge fact">사실</span>' + g.badges.fact + '</span>' +
+    '<span class="badge-def"><span class="badge infer">추론</span>' + g.badges.infer + '</span>' +
+    '<span class="badge-def"><span class="badge check">확인필요</span>' + g.badges.check + '</span></div>';
+  ob += '<div class="ob-h">용어 한 줄 풀이</div><dl class="gloss">' +
+    g.glossary.map(function (x) { return "<dt>" + x.term + "</dt><dd>" + x.plain + "</dd>"; }).join("") + "</dl>";
+  document.getElementById("onboard-body").innerHTML = ob;
+
+  /* ── 한눈에 보는 결론 (확정 수치 자동 도출) ── */
+  (function () {
+    var topKey = Object.keys(D.cumulative.byCategory).sort(function (a, b) { return D.cumulative.byCategory[b] - D.cumulative.byCategory[a]; })[0];
+    var topCum = D.cumulative.byCategory[topKey];
+    var b = D.returnBundle, bt = b.keys.reduce(function (a, k) { return a + D.cumulative.byCategory[k]; }, 0);
+    var box = '<div class="concl">';
+    box += '<div class="concl-item"><div class="ci-k">가장 많은 불만</div><div class="ci-v">' + cat(topKey).name + '<br><b>' + fmt(topCum) + '건</b> · 전체의 ' + pct(topCum, D.cumulative.total) + '%</div><div class="ci-e">= ' + fmt(topCum) + '/' + fmt(D.cumulative.total) + ' (카테고리 ' + cat(topKey).num + ')</div></div>';
+    box += '<div class="concl-item"><div class="ci-k">가장 큰 불편 덩어리</div><div class="ci-v">반납 관련 3가지를 합치면<br><b>' + fmt(bt) + '건</b> · 약 ' + pct(bt, D.cumulative.total, 0) + '%</div><div class="ci-e">카테고리 ' + b.keys.map(function (k) { return cat(k).num; }).join("·") + ' (반납 사진·만차·특수반납)</div></div>';
+    box += '<div class="concl-item"><div class="ci-k">먼저 손볼 것</div><div class="ci-v">' + g.actionNote.split(" — ")[0].replace("가장 빨리 고칠 수 있는 건 ", "") + '</div><div class="ci-e">개선 화면 디자인 완료 — 개발만 남음</div></div>';
+    box += '</div>';
+    box += '<div class="concl-note"><span class="badge fact">사실</span>위 숫자는 확정 집계에서 자동 계산됩니다. <b>주의</b>: 후기 모으는 방법이 3번 바뀌어 시기끼리 직접 비교는 안 됩니다(자세히는 맨 위 \'처음 보시나요?\' 참고).</div>';
+    document.getElementById("concl-box").innerHTML = box;
+  })();
 
   /* ── KPI ── */
   var fullTotal = D.cumulative.byRegime.full, fullDays = D.fullRegime.days;
@@ -290,7 +380,7 @@
   kpi += '<div class="kpi"><div class="k">누적 VOC</div><div class="v">' + fmt(D.cumulative.total) + '<small> 건</small></div><div class="e">정기(전수) ' + fmt(D.cumulative.byRegime.full) + ' + 발췌 ' + fmt(D.cumulative.byRegime.excerpt) + ' + 과거 1년 ' + fmt(D.cumulative.byRegime.past5) + '</div></div>';
   kpi += '<div class="kpi"><div class="k">기간</div><div class="v" style="font-size:19px">2024.12–2026.06</div><div class="e">' + D.meta.monthCount + '개월 · ' + (partialMonth ? pmMon() + '은 ' + partialMonth.partialLabel : '') + '</div></div>';
   kpi += '<div class="kpi"><div class="k">전수 구간 일평균</div><div class="v">' + dailyAvg + '<small> 건</small></div><div class="e">= ' + fmt(fullTotal) + ' / ' + fullDays + '일</div></div>';
-  kpi += '<div class="kpi warn"><div class="k">⚠ 수집 기준 3구간</div><div class="v">구간 간 직접 비교 금지</div><div class="e">과거 1년 5유형 · 발췌 Top3 · 전수 10개</div></div>';
+  kpi += '<div class="kpi" style="background:#f1f7f3;border-color:#d9e9dd"><div class="k" style="color:#2f7d4f;font-weight:700">가장 빨리 고칠 수 있는 것</div><div class="v" style="font-size:15px;font-weight:800;color:#236b41;line-height:1.4">1순위 · 반납 사진/절차</div><div class="e">개선 화면 디자인 완료 — 개발만 남음</div></div>';
   document.getElementById("kpis").innerHTML = kpi;
 
   var fm = D.months.filter(function (m) { return m.regime === "full"; });
@@ -379,7 +469,7 @@
         var x1 = (i === regimes.length) ? area.right : (x.getPixelForValue(i - 1) + x.getPixelForValue(i)) / 2;
         ctx.save(); ctx.fillStyle = band[regimes[start]]; ctx.fillRect(x0, area.top, x1 - x0, area.bottom - area.top);
         ctx.fillStyle = regimeColor(regimes[start]); ctx.font = "700 10.5px sans-serif"; ctx.textAlign = "center";
-        ctx.fillText({ past5: "과거 1년 (5유형)", excerpt: "발췌 (OCR)", full: "전수 (10개)" }[regimes[start]], (x0 + x1) / 2, area.top + 13);
+        ctx.fillText({ past5: "과거 1년 (5종류)", excerpt: "발췌 (OCR)", full: "전수 (10개)" }[regimes[start]], (x0 + x1) / 2, area.top + 13);
         ctx.restore(); start = i;
       }
     }
@@ -419,25 +509,27 @@
     var trendEv = tr.pts.map(function (p) { return p.ym.replace("-", ".") + (p.partial ? "(진행)" : "") + " " + p.n + "/" + p.t; }).join(" · ");
 
     ih += '<details class="insight" data-prio="' + idx + '" data-count="' + cum + '" data-score="' + score.toFixed(5) + '">';
-    ih += '<summary>' + catPill(ins.key) + '<span class="sum-name">' + c.name + '</span><span class="sum-right">';
+    ih += '<summary>' + catPill(ins.key) + '<span class="sum-line"><span class="sum-name">' + c.name + '</span><span class="sum-one">' + ins.plain.oneLiner + '</span></span><span class="sum-right">';
     ih += '<span class="sum-stat">누적 <b>' + fmt(cum) + '</b>건·' + pct(cum, D.cumulative.total) + '%</span>';
-    ih += '<span class="sum-trend" title="전수 구간 비중 · 근거 ' + trendEv + '">전수 ' + tr.first.toFixed(1) + '%→' + tr.last.toFixed(1) + '%<span class="arr ' + tr.dir + '">' + arrow + '</span></span>';
-    ih += '<span class="sev ' + sev.cls + '" title="심각도 추론값 — 확정 집계로 교정 대상">심각도 ' + ins.severity.level + '</span>';
+    ih += '<span class="sum-trend" title="최근 3개월 비중 변화 · 근거 ' + trendEv + '">최근 ' + tr.first.toFixed(1) + '%→' + tr.last.toFixed(1) + '%<span class="arr ' + tr.dir + '">' + arrow + '</span></span>';
+    ih += '<span class="sev ' + sev.cls + '" title="심각도는 짐작값 — 나중에 실제 집계로 교정">심각도 ' + ins.severity.level + '</span>';
     ih += '<span class="sum-prio">' + ins.priorityTier + '</span>';
     ih += '<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>';
     ih += '</span></summary><div class="i-body">';
+    // ── 쉬운 말 먼저: 어떤 불편 + 어떻게 고치나 ──
+    ih += '<div class="i-block i-lead"><div class="bt">어떤 불편이라 여기 모였나<span class="plainbadge">쉬운 설명</span></div><ul>' + liList(ins.plain.pains) + '</ul></div>';
+    ih += '<div class="i-block i-lead"><div class="bt">어떻게 고치면 좋을까<span class="plainbadge">쉬운 설명</span></div><ul>' + ins.plain.fixes.map(function (im) { return '<li><span class="lvl">' + im.level + '</span>' + im.text + '</li>'; }).join("") + '</ul></div>';
+    if (ins.otherDept) ih += '<div class="i-block"><div class="dept-line"><span class="badge dept">다른 팀 영역</span>' + ins.otherDept + '</div></div>';
+    // ── 숫자·근거 ──
     var rank = cumEntries.findIndex(function (e) { return e.key === ins.key; }) + 1;
     var statLi = '<li><span class="badge fact">사실</span>누적 <b>' + fmt(cum) + '</b>건 · 전체의 ' + pct(cum, D.cumulative.total) + '% (= ' + fmt(cum) + '/' + fmt(D.cumulative.total) + ') · 누적 ' + rank + '위</li>';
-    var seriesLi = '<li><span class="badge fact">사실</span>전수 구간 비중: ' + tr.pts.map(function (p) { return p.ym.replace("-", ".") + " " + p.share.toFixed(1) + "% (" + p.n + "/" + p.t + ")" + (p.partial ? "(진행)" : ""); }).join(" → ") + ' ' + arrow + '</li>';
-    ih += '<div class="i-block"><div class="bt">현황</div><ul>' + statLi + seriesLi + liList(ins.facts, "fact", "사실") + '</ul></div>';
-    ih += '<div class="i-block"><div class="bt">심각도</div><div class="i-rat"><span class="badge infer">추론</span><b>' + ins.severity.level + '</b> — ' + ins.severity.basis + ' <span class="ev">(확정 집계로 교정 대상)</span></div></div>';
-    ih += '<div class="i-block"><div class="bt">추이 해석 (시나리오)</div><ul>' + liList(ins.scenarios, "infer", "추론") + '</ul></div>';
-    ih += '<div class="i-block"><div class="bt">핵심 마찰 지점 (사용자 여정)</div><ul>' + liList(ins.frictions) + '</ul></div>';
-    ih += '<div class="i-block"><div class="bt">UXD 개선안</div><ul>' + ins.improvements.map(function (im) { return '<li><span class="lvl">' + im.level + '</span>' + im.text + '</li>'; }).join("") + '</ul></div>';
-    if (ins.otherDept) ih += '<div class="i-block"><div class="dept-line"><span class="badge dept">타 부서 의제</span>' + ins.otherDept + '</div></div>';
-    ih += '<div class="i-block"><div class="bt">우선순위 근거 (3축)</div><div class="i-rat"><span class="badge infer">추론</span>' + ins.priorityRationale + '</div></div>';
-    ih += '<div class="i-block"><div class="bt">검증 방법</div><div class="i-rat">' + ins.validation + '</div></div>';
-    if (ins.checks && ins.checks.length) ih += '<div class="i-block"><div class="bt">확인 필요</div><ul>' + liList(ins.checks, "check", "확인필요") + '</ul></div>';
+    var seriesLi = '<li><span class="badge fact">사실</span>최근 3개월 비중: ' + tr.pts.map(function (p) { return p.ym.replace("-", ".") + " " + p.share.toFixed(1) + "% (" + p.n + "/" + p.t + ")" + (p.partial ? "(진행)" : ""); }).join(" → ") + ' ' + arrow + '</li>';
+    ih += '<div class="i-block"><div class="bt">얼마나 들어왔나 (현황)</div><ul>' + statLi + seriesLi + liList(ins.facts, "fact", "사실") + '</ul></div>';
+    ih += '<div class="i-block"><div class="bt">얼마나 불편한가 (심각도)</div><div class="i-rat"><span class="badge infer">추론</span><b>' + ins.severity.level + '</b> — ' + ins.severity.basis + ' <span class="ev">(짐작값 — 실제 집계로 교정 대상)</span></div></div>';
+    ih += '<div class="i-block"><div class="bt">왜 늘었나·줄었나 (담당자 해석)</div><ul>' + liList(ins.scenarios, "infer", "추론") + '</ul></div>';
+    ih += '<div class="i-block"><div class="bt">우선순위를 정한 세 가지 기준</div><div class="i-rat"><span class="badge infer">추론</span>' + ins.priorityRationale + '</div></div>';
+    ih += '<div class="i-block"><div class="bt">효과 확인 방법</div><div class="i-rat">' + ins.validation + '</div></div>';
+    if (ins.checks && ins.checks.length) ih += '<div class="i-block"><div class="bt">더 확인이 필요한 점</div><ul>' + liList(ins.checks, "check", "확인필요") + '</ul></div>';
     ih += '</div></details>';
   });
   var container = document.getElementById("insight-cards");
@@ -474,13 +566,13 @@
   var bev = pct(bt, D.cumulative.total) + "% = " + fmt(bt) + " / " + fmt(D.cumulative.total);
   document.getElementById("bundle-box").innerHTML =
     '<div class="callout blue" style="margin-top:0">' +
-    '<span class="badge fact">사실</span>' + b.keys.map(catTag).join(" + ") + ' <b>= ' + fmt(bt) + "건 (" + bev + ")</b> — 단일 최대 페인포인트 묶음.<br>" +
-    '<span class="badge fact">사실</span>과거 1년 구간 반납 관련 비중 ' + b.past5Share + " (" + b.past5ShareSource + ")로 방향 일치.<br>" +
-    '<span class="badge infer">추론</span>수집 기준이 세 번 바뀌어도 반납 단계가 일관되게 최대 마찰 — 반납 경험(사진 절차 → 만차/위치 → 특수 안내)을 한 여정으로 묶어 개선하는 편이 효과적.' +
+    '<span class="badge fact">사실</span>' + b.keys.map(catTag).join(" + ") + ' <b>= ' + fmt(bt) + "건 (" + bev + ")</b> — G car에서 가장 큰 불편 덩어리.<br>" +
+    '<span class="badge fact">사실</span>옛 방식(과거 1년)에서도 반납 관련 비중이 ' + b.past5Share + " (" + b.past5ShareSource + ")로 같은 방향.<br>" +
+    '<span class="badge infer">추론</span>후기 모으는 방법이 세 번 바뀌어도 반납 단계가 한결같이 가장 큰 불편 — 반납 경험(사진 절차 → 자리 없음/위치 → 특수 상황 안내)을 하나로 묶어 함께 개선하는 편이 효과적.' +
     '</div>';
 
   /* ── 데이터 한계 ── */
-  document.getElementById("limit-summary").innerHTML = "데이터 한계 " + D.limitations.length + "가지 — 펼쳐서 확인";
+  document.getElementById("limit-summary").innerHTML = "이 숫자를 읽을 때 주의할 점 " + D.limitations.length + "가지 <span style='color:var(--ink-3);font-weight:400'>(핵심: 시기끼리 비교 금지 · 비율 아닌 건수로 해석) — 펼쳐 보기</span>";
   document.getElementById("limitations").innerHTML = D.limitations.map(function (t) { return '<li><span class="badge fact">사실</span>' + t + "</li>"; }).join("");
 })();
 </script>
