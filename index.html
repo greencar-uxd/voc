@@ -21,6 +21,7 @@
     --up: #c0531f;     --down: #436378;
     --r-past5: #aab0b8; --r-excerpt: #e8893f; --r-full: #436378;
     --navy: #436378; --navy-030: #A1B1BB; --navy-bg: #eaf1f4;
+    --coral: #e0533c; --coral-bg: #fdecea;
   }
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
@@ -201,6 +202,192 @@
   footer { color: var(--ink-3); font-size: 12px; margin-top: 34px; text-align: center; }
 
   @media (max-width: 620px) { .sum-right { width: 100%; margin-left: 0; } .kpi .v { font-size: 24px; } .dist-row { grid-template-columns: 1fr; gap: 5px; } .dist-bar { height: 12px; } }
+
+  /* ============ UI 개선안 스튜디오 ============ */
+  .studio { }
+  .st-intro { font-size: 13px; color: var(--ink-2); line-height: 1.65; margin: 2px 0 6px; }
+  .st-intro b { color: var(--ink); }
+  .st-howto { font-size: 12px; color: var(--ink-3); margin: 0 0 16px; }
+
+  .st-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+  .st-tabs button { font: inherit; font-size: 13px; font-weight: 700; color: var(--ink-2);
+    background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 9px 13px; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+  .st-tabs button:hover { background: #f0f1f3; }
+  .st-tabs button.active { background: var(--navy); border-color: var(--navy); color: #fff; }
+  .st-tcat { font-size: 11px; font-weight: 700; padding: 1px 7px; border-radius: 999px; background: rgba(0,0,0,.06); color: inherit; }
+  .st-tabs button.active .st-tcat { background: rgba(255,255,255,.22); color: #fff; }
+
+  .st-attach { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; background: var(--navy-bg);
+    border: 1px dashed #b9cdd7; border-radius: 12px; padding: 10px 14px; margin-bottom: 20px; }
+  .st-att-t { font-size: 12px; color: var(--ink-2); }
+  .st-att-t b { color: var(--navy); }
+  label.st-att-btn { font-size: 12px; font-weight: 700; color: #fff; background: var(--navy); border-radius: 8px; padding: 6px 12px; cursor: pointer; }
+  button.st-att-reset { font: inherit; font-size: 12px; color: var(--ink-2); background: #fff; border: 1px solid var(--line); border-radius: 8px; padding: 6px 12px; cursor: pointer; }
+  .st-attach input[type=file] { display: none; }
+
+  .st-panel { display: none; }
+  .st-panel.is-active { display: block; }
+
+  .st-stage { display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap; margin-bottom: 8px; }
+  .st-arrow { font-size: 26px; color: var(--navy-030); font-weight: 800; flex: 0 0 auto; }
+  .st-device { width: 268px; margin: 0; }
+  .st-cap { display: flex; align-items: center; justify-content: center; gap: 5px; font-size: 12px; font-weight: 800; margin-bottom: 9px; letter-spacing: -.2px; }
+  .st-device.before .st-cap { color: var(--ink-3); }
+  .st-device.after .st-cap { color: var(--navy); }
+  .st-cap-tag { font-size: 11px; font-weight: 700; padding: 1px 7px; border-radius: 999px; }
+  .st-device.before .st-cap-tag { background: #eef0f2; color: var(--ink-3); }
+  .st-device.after .st-cap-tag { background: var(--navy-bg); color: var(--navy); }
+
+  .st-screen { position: relative; height: 592px; border-radius: 30px; overflow: hidden; border: 1px solid var(--line);
+    box-shadow: 0 8px 26px rgba(20,40,60,.10); background: #fff; }
+  .st-device.before .st-screen { box-shadow: 0 4px 14px rgba(20,40,60,.06); }
+  .st-userimg { position: absolute; inset: 0; background: #111 center/contain no-repeat; display: none; z-index: 6; }
+  .st-screen.has-user .st-mock { display: none; }
+  .st-screen.has-user .st-userimg { display: block; }
+  .st-mock { height: 100%; display: flex; flex-direction: column; }
+
+  .gc-status { height: 26px; flex: 0 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 0 16px 0 18px; font-size: 10px; font-weight: 700; }
+  .before .gc-status { background: #e9ebed; color: #8a929b; }
+  .after .gc-status { background: #fff; color: var(--ink-2); }
+  .gc-status .dots::after { content: "●●● ▮"; letter-spacing: 1px; }
+
+  .gc-bar { flex: 0 0 auto; min-height: 46px; display: flex; align-items: center; gap: 9px; padding: 8px 14px; font-size: 14px; font-weight: 700; }
+  .before .gc-bar { background: #7c8794; color: #fff; }
+  .after .gc-bar { background: var(--navy); color: #fff; }
+  .gc-back { font-size: 17px; line-height: 1; }
+  .gc-step { margin-left: auto; font-size: 11px; font-weight: 700; opacity: .92; }
+
+  .gc-body { flex: 1 1 auto; overflow: hidden; padding: 13px 14px; }
+  .before .gc-body { background: #f4f5f6; }
+  .after .gc-body { background: #f6f9fa; }
+  .gc-h { font-size: 13px; font-weight: 800; color: var(--ink); margin: 0 0 3px; letter-spacing: -.2px; }
+  .gc-sub { font-size: 11px; color: var(--ink-2); margin: 0 0 11px; line-height: 1.5; }
+  .gc-sub.muted { color: #9298a1; }
+
+  .gc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; }
+  .gc-grid.cols2 { grid-template-columns: repeat(2, 1fr); }
+  .gc-tile { position: relative; aspect-ratio: 1/1; border-radius: 9px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-size: 10px; font-weight: 600; text-align: center; }
+  .before .gc-tile { background: #e4e7ea; color: #7b838d; border: 1px dashed #c4cacf; }
+  .after .gc-tile { background: #fff; color: var(--ink-2); border: 1px solid var(--line); }
+  .after .gc-tile.done { background: var(--navy-bg); border-color: #cddde5; color: var(--navy); }
+  .after .gc-tile.opt { border-style: dashed; color: var(--ink-3); }
+  .gc-ic { font-size: 17px; line-height: 1; }
+  .gc-chk { position: absolute; top: 4px; right: 4px; width: 15px; height: 15px; border-radius: 50%; background: var(--navy); color: #fff; font-size: 10px; display: flex; align-items: center; justify-content: center; font-weight: 800; }
+
+  .gc-prog { display: flex; align-items: center; gap: 8px; margin: 12px 0 4px; }
+  .gc-prog-bar { flex: 1; height: 7px; border-radius: 4px; background: #e6e9ec; overflow: hidden; }
+  .gc-prog-fill { height: 100%; border-radius: 4px; background: var(--navy); }
+  .gc-prog-txt { font-size: 11px; font-weight: 800; color: var(--navy); white-space: nowrap; }
+
+  .gc-help { display: flex; gap: 7px; align-items: flex-start; background: #eef4f7; border-radius: 9px; padding: 8px 10px; font-size: 10.5px; color: var(--ink-2); line-height: 1.45; margin-top: 9px; }
+  .gc-help .gc-q { flex: 0 0 auto; width: 15px; height: 15px; border-radius: 50%; background: var(--navy); color: #fff; font-size: 10px; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+
+  .gc-alert { display: flex; gap: 8px; align-items: flex-start; border-radius: 10px; padding: 9px 11px; font-size: 11px; line-height: 1.45; margin-bottom: 10px; }
+  .gc-alert.coral { background: #fdecea; color: #a23a28; border: 1px solid #f4ccc3; }
+  .gc-alert .gc-ai { flex: 0 0 auto; }
+  .gc-alert b { color: #8c3020; }
+  .before .gc-deadend { background: #ececec; color: #9aa0a7; border-radius: 9px; padding: 9px 11px; font-size: 11px; text-align: center; margin-bottom: 10px; }
+
+  .gc-card { background: #fff; border: 1px solid var(--line); border-radius: 13px; padding: 11px 12px; margin-bottom: 9px; }
+  .gc-card-t { font-size: 12px; font-weight: 800; color: var(--ink); margin: 0 0 6px; display: flex; align-items: center; gap: 6px; }
+  .gc-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 11px; color: var(--ink-2); padding: 5px 0; }
+  .gc-row + .gc-row { border-top: 1px solid var(--line-2); }
+  .gc-row .gc-free { font-weight: 800; color: var(--navy); }
+  .gc-pill { display: inline-flex; align-items: center; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 999px; background: var(--navy-bg); color: var(--navy); }
+  .gc-pill.coral { background: #fdecea; color: var(--coral); }
+
+  /* 미니 지도 */
+  .gc-map { position: relative; height: 138px; border-radius: 11px; overflow: hidden; margin-bottom: 10px;
+    background: linear-gradient(135deg, #eef1f3 0%, #e4e9ec 100%); }
+  .before .gc-map { background: #e6e8ea; }
+  .gc-road { position: absolute; background: #fff; }
+  .gc-zone { position: absolute; border-radius: 8px; }
+  .after .gc-zone { background: rgba(67,99,120,.16); border: 1.5px solid var(--navy); }
+  .before .gc-zone { background: rgba(120,130,140,.14); border: 1.5px dashed #99a1a9; }
+  .gc-pin { position: absolute; width: 22px; height: 22px; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); display: flex; align-items: center; justify-content: center; }
+  .gc-pin span { transform: rotate(45deg); font-size: 9px; color: #fff; font-weight: 800; }
+  .gc-pin.navy { background: var(--navy); }
+  .gc-pin.coral { background: var(--coral); }
+  .gc-pin.gray { background: #8a929b; }
+  .gc-zonetag { position: absolute; font-size: 9px; font-weight: 800; padding: 1px 6px; border-radius: 999px; }
+  .after .gc-zonetag { background: var(--coral); color: #fff; }
+
+  .gc-step-item { display: flex; gap: 9px; align-items: flex-start; margin-bottom: 10px; }
+  .gc-step-num { flex: 0 0 auto; width: 19px; height: 19px; border-radius: 50%; background: var(--navy); color: #fff; font-size: 10px; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+  .before .gc-step-num { background: #aab0b8; }
+  .gc-step-tx { font-size: 11px; color: var(--ink-2); line-height: 1.45; }
+  .gc-step-tx b { color: var(--ink); font-weight: 700; }
+
+  .gc-cta { flex: 0 0 auto; padding: 11px 14px 13px; }
+  .before .gc-cta { background: #f4f5f6; }
+  .after .gc-cta { background: #f6f9fa; }
+  .gc-btn { display: block; text-align: center; border-radius: 12px; padding: 12px; font-size: 13px; font-weight: 800; }
+  .before .gc-btn { background: #c3c8cd; color: #fff; }
+  .after .gc-btn { background: var(--navy); color: #fff; box-shadow: 0 4px 12px rgba(67,99,120,.28); }
+  .after .gc-btn.ghost { background: #fff; color: var(--navy); border: 1.5px solid var(--navy); box-shadow: none; margin-bottom: 8px; }
+  .gc-success { display: flex; align-items: center; gap: 8px; background: var(--navy-bg); border: 1px solid #cddde5; border-radius: 11px; padding: 9px 11px; font-size: 11px; font-weight: 700; color: var(--navy); margin-bottom: 10px; }
+  .gc-success .gc-sc { width: 18px; height: 18px; border-radius: 50%; background: var(--navy); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 11px; }
+
+  /* 개선 포인트 + 근거 */
+  .st-points { margin-top: 22px; }
+  .st-points-h { font-size: 13px; font-weight: 800; color: var(--ink); margin: 0 0 11px; }
+  .st-point { display: flex; gap: 12px; align-items: flex-start; padding: 12px 0; border-top: 1px solid var(--line-2); }
+  .st-point:first-of-type { border-top: none; }
+  .st-pn { flex: 0 0 auto; width: 24px; height: 24px; border-radius: 7px; background: var(--navy); color: #fff; font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+  .st-pc { flex: 1 1 auto; min-width: 0; }
+  .st-pc .st-pt { font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 3px; letter-spacing: -.2px; }
+  .st-pc .st-pd { font-size: 12px; color: var(--ink-2); line-height: 1.55; margin-bottom: 6px; }
+  .st-pmeta { display: flex; flex-wrap: wrap; gap: 6px; }
+  .st-tagv { font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 999px; background: var(--fact-bg); color: var(--fact); }
+  .st-tagd { font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 999px; background: #f0ecfa; color: #6741b8; }
+  .st-taglv { font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 999px; background: #eef0f2; color: var(--ink-2); }
+
+  .st-evnote { font-size: 12px; color: var(--ink-2); background: #f8fafc; border: 1px solid var(--line-2); border-radius: 10px; padding: 11px 13px; margin-top: 16px; line-height: 1.6; }
+  .st-evnote b { color: var(--ink); }
+  .st-evnote .badge { vertical-align: middle; }
+
+  .st-kit { margin-top: 22px; }
+  .st-kit-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px; margin-top: 6px; }
+  .st-kit-b { border: 1px solid var(--line); border-radius: 11px; padding: 12px; }
+  .st-kit-b h4 { font-size: 12px; margin: 0 0 9px; color: var(--ink-3); font-weight: 800; letter-spacing: .03em; }
+  .st-sw { display: flex; align-items: center; gap: 8px; font-size: 11px; color: var(--ink-2); margin-bottom: 6px; }
+  .st-sw i { width: 18px; height: 18px; border-radius: 5px; flex: 0 0 auto; border: 1px solid rgba(0,0,0,.06); }
+  .st-kit-b .kbtn { display: inline-block; border-radius: 10px; padding: 8px 14px; font-size: 12px; font-weight: 800; }
+
+  /* 확장 화면 컴포넌트 */
+  .st-tdiv { width: 1px; align-self: stretch; background: var(--line); margin: 4px 3px; }
+  .gc-listrow { display: flex; align-items: center; gap: 9px; border-radius: 11px; padding: 11px 12px; margin-bottom: 8px; font-size: 12px; font-weight: 700; }
+  .before .gc-listrow { background: #ececee; border: 1px solid #dadde0; color: #7b838d; font-weight: 600; }
+  .gc-listrow .gc-chev { margin-left: auto; color: var(--ink-3); font-size: 14px; }
+  .gc-stars { font-size: 23px; letter-spacing: 5px; margin: 5px 0 12px; }
+  .after .gc-stars { color: var(--navy); }
+  .before .gc-stars { color: #c4cacf; }
+  .gc-stars .off { color: #d4dadf; }
+  .after .gc-find { font-size: 12px; }
+
+  .gc-doorbtn { display: flex; align-items: center; justify-content: center; gap: 6px; background: var(--navy-bg); color: var(--navy); border: 1.5px solid var(--navy); border-radius: 11px; padding: 10px; font-size: 11.5px; font-weight: 800; margin-bottom: 13px; text-align: center; }
+
+  /* 홈 위젯 (스마트키 After) */
+  .gc-home { height: 100%; display: flex; flex-direction: column; padding-bottom: 16px; background: linear-gradient(160deg, #5b7a8c 0%, #34505f 100%); }
+  .gc-home .gc-status { background: transparent; color: rgba(255,255,255,.85); }
+  .gc-home-top { padding: 22px 0 0; text-align: center; color: #fff; }
+  .gc-home-clock { font-size: 42px; font-weight: 300; letter-spacing: 1px; line-height: 1; }
+  .gc-home-date { font-size: 12px; opacity: .9; margin-top: 5px; }
+  .gc-dots { display: flex; justify-content: center; gap: 13px; margin: 20px 0; }
+  .gc-dots i { width: 30px; height: 30px; border-radius: 9px; background: rgba(255,255,255,.22); }
+  .gc-widget { margin: auto 14px 0; background: rgba(255,255,255,.97); border-radius: 18px; padding: 13px 14px; box-shadow: 0 8px 20px rgba(0,0,0,.20); }
+  .gc-widget-h { display: flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 800; color: var(--navy); margin-bottom: 11px; }
+  .gc-lockstate { margin-left: auto; font-size: 10px; font-weight: 800; color: var(--navy); background: var(--navy-bg); padding: 2px 9px; border-radius: 999px; }
+  .gc-widget-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .gc-wbtn { text-align: center; border-radius: 11px; padding: 12px; font-size: 13px; font-weight: 800; }
+  .gc-wbtn.lock { background: var(--navy); color: #fff; }
+  .gc-wbtn.unlock { background: var(--navy-bg); color: var(--navy); }
+  .gc-widget-mini { display: flex; gap: 7px; margin-top: 8px; }
+  .gc-widget-mini span { flex: 1; text-align: center; font-size: 10px; font-weight: 700; color: var(--ink-2); background: #f1f3f5; border-radius: 8px; padding: 7px 2px; }
+  .gc-home-cap { text-align: center; color: #fff; font-size: 11px; font-weight: 600; margin-top: 14px; opacity: .96; }
+  .gc-home-cap b { color: #fff; }
+
+  @media (max-width: 620px) { .st-arrow { transform: rotate(90deg); } }
 </style>
 </head>
 <body>
@@ -216,6 +403,7 @@
     <a href="#sec-summary">한눈에 결론</a>
     <a href="#sec-insight">개선 인사이트</a>
     <a href="#sec-bundle">반납 묶음</a>
+    <a href="#sec-studio">🎨 개선 UI 스튜디오</a>
     <a href="#sec-full">최근 3개월 비교</a>
     <a href="#sec-cum">전체 누적 분포</a>
     <a href="#sec-stack">월별 구성</a>
@@ -259,6 +447,440 @@
   <section id="sec-bundle">
     <div class="s-head"><h2>반납 묶음 인사이트</h2><span class="h-meta">가장 큰 불편 덩어리</span></div>
     <div id="bundle-box"></div>
+  </section>
+
+  <!-- 🎨 UI 개선안 스튜디오 -->
+  <section id="sec-studio">
+    <div class="s-head"><h2>🎨 UI 개선안 스튜디오</h2><span class="h-meta">VOC 인사이트 → G car 디자인 시스템으로 개선 UI</span><span class="tag-ok">디자인 시스템 기반</span></div>
+    <p class="st-intro">VOC에서 가장 큰 불편인 <b>반납</b>(누적 <b data-vb></b>건 · 약 <b data-vbs></b>%)을 비롯해 <b>우선순위 높은 화면</b>까지 <b>G car 디자인 시스템</b>(Navy <span style="color:var(--navy)">#436378</span> · Noto Sans KR · 둥근 카드 · 알약 태그 · 코랄레드 경고)으로 다시 그렸습니다. 화면을 고르면 <b>현재(Before) → 개선(After)</b>와 각 변경의 <b>VOC 근거</b>가 함께 나옵니다.</p>
+    <p class="st-howto">아래 탭에서 반납 화면을 고르세요. 실제 화면을 가지고 있다면 <b>현재 화면 첨부</b>로 올려 Before 자리에 바로 비교할 수 있습니다(파일은 브라우저 안에서만 처리 — 어디에도 업로드되지 않습니다).</p>
+
+    <div class="studio">
+      <div class="st-tabs" id="st-tabs">
+        <button data-screen="photo" class="active">반납 사진 촬영 <span class="st-tcat">카테고리 2</span></button>
+        <button data-screen="full">반납 만차·위치 <span class="st-tcat">카테고리 9</span></button>
+        <button data-screen="special">특수 반납 안내 <span class="st-tcat">카테고리 10</span></button>
+        <span class="st-tdiv"></span>
+        <button data-screen="find">차량 찾기·인수 <span class="st-tcat">카테고리 1</span></button>
+        <button data-screen="key">스마트키 <span class="st-tcat">카테고리 5</span></button>
+        <button data-screen="manner">매너평가 <span class="st-tcat">카테고리 3</span></button>
+      </div>
+
+      <div class="st-attach">
+        <span class="st-att-t">📎 <b>현재 화면 첨부(선택)</b> — 지금 보고 있는 탭의 Before 자리에 내 화면을 올려 비교</span>
+        <label class="st-att-btn">화면 올리기<input type="file" id="st-file" accept="image/*"></label>
+        <button class="st-att-reset" id="st-reset" style="display:none">예시로 되돌리기</button>
+      </div>
+
+      <!-- ========== 화면 1: 반납 사진 촬영 ========== -->
+      <div class="st-panel is-active" data-screen="photo">
+        <div class="st-stage">
+          <figure class="st-device before">
+            <figcaption class="st-cap">현재 화면 <span class="st-cap-tag">예시 재현</span></figcaption>
+            <div class="st-screen"><div class="st-userimg"></div><div class="st-mock">
+              <div class="gc-status"><span>9:41</span><span class="dots"></span></div>
+              <div class="gc-bar"><span class="gc-back">‹</span><span>반납 사진 촬영</span></div>
+              <div class="gc-body">
+                <p class="gc-h">차량 사진을 촬영해주세요</p>
+                <p class="gc-sub muted">아래 6장을 <b>순서대로 모두</b> 촬영해야 반납할 수 있습니다.</p>
+                <div class="gc-grid">
+                  <div class="gc-tile"><span class="gc-ic">📷</span>전면</div>
+                  <div class="gc-tile"><span class="gc-ic">📷</span>후면</div>
+                  <div class="gc-tile"><span class="gc-ic">📷</span>좌측</div>
+                  <div class="gc-tile"><span class="gc-ic">📷</span>우측</div>
+                  <div class="gc-tile"><span class="gc-ic">📷</span>트렁크</div>
+                  <div class="gc-tile"><span class="gc-ic">📷</span>계기판</div>
+                </div>
+                <p class="gc-sub muted" style="margin-top:12px">※ 6장을 다 찍어도 반납이 끝났는지 별도 안내가 없습니다.</p>
+              </div>
+              <div class="gc-cta"><span class="gc-btn">다음</span></div>
+            </div></div>
+          </figure>
+          <div class="st-arrow">→</div>
+          <figure class="st-device after">
+            <figcaption class="st-cap">개선 화면 <span class="st-cap-tag">G car DS 적용</span></figcaption>
+            <div class="st-screen"><div class="st-mock">
+              <div class="gc-status"><span>9:41</span><span class="dots"></span></div>
+              <div class="gc-bar"><span class="gc-back">‹</span><span>반납 사진</span><span class="gc-step">2 / 3</span></div>
+              <div class="gc-body">
+                <p class="gc-h">사진을 촬영해주세요</p>
+                <p class="gc-sub"><b>필수 4장</b>만 찍으면 반납할 수 있어요.</p>
+                <div class="gc-prog"><div class="gc-prog-bar"><div class="gc-prog-fill" style="width:75%"></div></div><span class="gc-prog-txt">3 / 4 완료</span></div>
+                <div class="gc-grid cols2" style="margin-top:8px">
+                  <div class="gc-tile done"><span class="gc-chk">✓</span><span class="gc-ic">🚗</span>전면</div>
+                  <div class="gc-tile done"><span class="gc-chk">✓</span><span class="gc-ic">🚗</span>후면</div>
+                  <div class="gc-tile done"><span class="gc-chk">✓</span><span class="gc-ic">🚗</span>좌측</div>
+                  <div class="gc-tile"><span class="gc-ic">📷</span>우측</div>
+                </div>
+                <div class="gc-help"><span class="gc-q">?</span><span><b>트렁크는 선택이에요.</b> 분쟁이 있을 때만 확인용으로 쓰여, 필요 없으면 건너뛰어도 됩니다.</span></div>
+              </div>
+              <div class="gc-cta"><span class="gc-success" style="margin-bottom:8px"><span class="gc-sc">✓</span>4장을 다 찍으면 바로 반납 완료</span><span class="gc-btn">반납 완료하기</span></div>
+            </div></div>
+          </figure>
+        </div>
+        <div class="st-points">
+          <p class="st-points-h">개선 포인트 — 각 변경은 VOC 근거에 연결됩니다</p>
+          <div class="st-point"><div class="st-pn">1</div><div class="st-pc">
+            <div class="st-pt">필수 사진 6장 → 4장, 트렁크는 ‘선택’</div>
+            <div class="st-pd">꼭 필요한 컷만 남기고, 트렁크 촬영은 ‘선택 + 이유 안내’로 바꿔 촬영 부담을 줄였습니다.</div>
+            <div class="st-pmeta"><span class="st-tagv">VOC 카테고리 2 · <b data-vc="c2"></b>건(<b data-vs="c2"></b>%) · 누적 1위</span><span class="st-taglv">변경 수준: 화면</span></div>
+          </div></div>
+          <div class="st-point"><div class="st-pn">2</div><div class="st-pc">
+            <div class="st-pt">진행률 표시 + 명확한 반납 완료</div>
+            <div class="st-pd">몇 장 중 몇 장 찍었는지 진행 바로 보여주고, 다 찍으면 ‘반납 완료’를 분명히 안내해 ‘끝났는지 모르겠다’를 해소합니다.</div>
+            <div class="st-pmeta"><span class="st-tagv">VOC 카테고리 2 · 완료 안내 부족</span><span class="st-taglv">변경 수준: 진행 순서</span></div>
+          </div></div>
+          <div class="st-point"><div class="st-pn">3</div><div class="st-pc">
+            <div class="st-pt">‘왜 필요한가요?’ 인라인 안내</div>
+            <div class="st-pd">트렁크 촬영이 왜 필요한지 그 자리에서 설명해 ‘이걸 왜 찍나’ 하는 의문을 없앱니다.</div>
+            <div class="st-pmeta"><span class="st-tagv">VOC 카테고리 2 · 절차 의문</span><span class="st-taglv">변경 수준: 안내</span></div>
+          </div></div>
+        </div>
+        <div class="st-evnote"><span class="badge fact">사실</span>카테고리 2 반납 사진/절차는 누적 <b data-vc="c2"></b>건(<b data-vs="c2"></b>%)으로 <b>단일 최대 불만</b>. 개선안 디자인이 끝나 <b>개발만 남은</b> 상태라 가장 빨리 적용할 수 있는 화면입니다.</div>
+      </div>
+
+      <!-- ========== 화면 2: 반납 만차·위치 ========== -->
+      <div class="st-panel" data-screen="full">
+        <div class="st-stage">
+          <figure class="st-device before">
+            <figcaption class="st-cap">현재 화면 <span class="st-cap-tag">예시 재현</span></figcaption>
+            <div class="st-screen"><div class="st-userimg"></div><div class="st-mock">
+              <div class="gc-status"><span>9:41</span><span class="dots"></span></div>
+              <div class="gc-bar"><span class="gc-back">‹</span><span>반납 장소</span></div>
+              <div class="gc-body">
+                <p class="gc-h">반납 구역</p>
+                <div class="gc-map">
+                  <div class="gc-road" style="left:0;right:0;top:64px;height:10px"></div>
+                  <div class="gc-road" style="top:0;bottom:0;left:120px;width:10px"></div>
+                  <div class="gc-zone" style="left:24px;top:84px;width:64px;height:34px"></div>
+                  <div class="gc-pin gray" style="left:44px;top:40px"><span>P</span></div>
+                </div>
+                <div class="gc-deadend">지카존 A · <b>만차</b></div>
+                <p class="gc-sub muted">자리가 없을 때 어떻게 해야 하는지 안내가 없습니다.</p>
+              </div>
+              <div class="gc-cta"><span class="gc-btn">반납하기</span></div>
+            </div></div>
+          </figure>
+          <div class="st-arrow">→</div>
+          <figure class="st-device after">
+            <figcaption class="st-cap">개선 화면 <span class="st-cap-tag">G car DS 적용</span></figcaption>
+            <div class="st-screen"><div class="st-mock">
+              <div class="gc-status"><span>9:41</span><span class="dots"></span></div>
+              <div class="gc-bar"><span class="gc-back">‹</span><span>반납 장소</span><span class="gc-step">위치</span></div>
+              <div class="gc-body">
+                <div class="gc-map">
+                  <div class="gc-road" style="left:0;right:0;top:64px;height:10px"></div>
+                  <div class="gc-road" style="top:0;bottom:0;left:120px;width:10px"></div>
+                  <div class="gc-zone" style="left:24px;top:84px;width:64px;height:34px"></div>
+                  <div class="gc-zonetag" style="left:30px;top:90px">만차</div>
+                  <div class="gc-pin coral" style="left:46px;top:46px"><span>A</span></div>
+                  <div class="gc-pin navy" style="left:150px;top:30px"><span>B</span></div>
+                  <div class="gc-pin navy" style="left:190px;top:92px"><span>C</span></div>
+                </div>
+                <div class="gc-alert coral"><span class="gc-ai">⚠️</span><span><b>이 구역(A)이 가득 찼어요.</b> 가까운 지카존을 안내해 드릴게요.</span></div>
+                <div class="gc-card">
+                  <p class="gc-card-t">📍 가까운 지카존</p>
+                  <div class="gc-row"><span><b>B 구역</b> · 220m</span><span class="gc-pill">3면 여유</span></div>
+                  <div class="gc-row"><span><b>C 구역</b> · 450m</span><span class="gc-pill">5면 여유</span></div>
+                </div>
+              </div>
+              <div class="gc-cta"><span class="gc-btn ghost">외부 차량이 자리를 차지했나요? 신고</span><span class="gc-btn">임시 반납 요청</span></div>
+            </div></div>
+          </figure>
+        </div>
+        <div class="st-points">
+          <p class="st-points-h">개선 포인트 — 각 변경은 VOC 근거에 연결됩니다</p>
+          <div class="st-point"><div class="st-pn">1</div><div class="st-pc">
+            <div class="st-pt">만차일 때 가까운 지카존 자동 안내</div>
+            <div class="st-pd">‘만차’만 알려주고 끝나지 않게, 인근 지카존을 여유 면수와 함께 보여주고 임시 반납 흐름으로 연결합니다.</div>
+            <div class="st-pmeta"><span class="st-tagv">VOC 카테고리 9 · <b data-vc="c9"></b>건 · 대안 부재</span><span class="st-taglv">변경 수준: 진행 순서</span></div>
+          </div></div>
+          <div class="st-point"><div class="st-pn">2</div><div class="st-pc">
+            <div class="st-pt">외부 차량 점유 신고 버튼</div>
+            <div class="st-pd">남의 차가 반납 자리를 막고 있을 때 앱에서 바로 신고하게 해 ‘둘 데가 없다’를 해결합니다.</div>
+            <div class="st-pmeta"><span class="st-tagv">VOC 카테고리 9 · 외부차량 점유</span><span class="st-taglv">변경 수준: 진행 순서</span></div>
+          </div></div>
+          <div class="st-point"><div class="st-pn">3</div><div class="st-pc">
+            <div class="st-pt">지카존 경계·위치 지도 시각화</div>
+            <div class="st-pd">정해진 자리가 어디에 있고 어디까지인지 지도에 또렷이 표시해 ‘어디가 내 자리인지 모르겠다’를 줄입니다.</div>
+            <div class="st-pmeta"><span class="st-tagv">VOC 카테고리 9 · 경계 식별</span><span class="st-taglv">변경 수준: 화면</span></div>
+          </div></div>
+        </div>
+        <div class="st-evnote"><span class="badge fact">사실</span>카테고리 9 반납 만차/외부차량/위치는 전수 구간(2026.04~)에서만 잡히는 항목으로 누적 <b data-vc="c9"></b>건이며 <b>비중이 3개월 연속 상승</b> 중. <span class="badge dept">협업</span>주차면 확보는 운영팀과 함께, 화면·흐름은 UXD가 맡는 공동 의제입니다.</div>
+      </div>
+
+      <!-- ========== 화면 3: 특수 반납 안내 ========== -->
+      <div class="st-panel" data-screen="special">
+        <div class="st-stage">
+          <figure class="st-device before">
+            <figcaption class="st-cap">현재 화면 <span class="st-cap-tag">예시 재현</span></figcaption>
+            <div class="st-screen"><div class="st-userimg"></div><div class="st-mock">
+              <div class="gc-status"><span>9:41</span><span class="dots"></span></div>
+              <div class="gc-bar"><span class="gc-back">‹</span><span>반납</span></div>
+              <div class="gc-body">
+                <p class="gc-h">반납 완료</p>
+                <p class="gc-sub muted">반납을 완료해주세요.</p>
+                <div class="gc-deadend" style="margin-top:14px">운영시간(09–22시)이 아닙니다.</div>
+                <div class="gc-deadend">지정 구역이 아닙니다.</div>
+                <p class="gc-sub muted">→ 어떻게 해야 하는지 안내가 없어 막힙니다.</p>
+              </div>
+              <div class="gc-cta"><span class="gc-btn">반납 불가</span></div>
+            </div></div>
+          </figure>
+          <div class="st-arrow">→</div>
+          <figure class="st-device after">
+            <figcaption class="st-cap">개선 화면 <span class="st-cap-tag">G car DS 적용</span></figcaption>
+            <div class="st-screen"><div class="st-mock">
+              <div class="gc-status"><span>9:41</span><span class="dots"></span></div>
+              <div class="gc-bar"><span class="gc-back">‹</span><span>특수 반납 안내</span></div>
+              <div class="gc-body">
+                <p class="gc-h">어떤 상황인가요?</p>
+                <p class="gc-sub">상황을 고르면 단계별로 안내해 드려요.</p>
+                <div class="gc-card" style="border-color:var(--navy);background:var(--navy-bg)">
+                  <p class="gc-card-t">🕘 운영시간 외 반납 <span class="gc-pill">선택됨</span></p>
+                  <div class="gc-step-item"><span class="gc-step-num">1</span><span class="gc-step-tx">차량을 <b>가까운 합법 주차구역</b>에 안전하게 주차</span></div>
+                  <div class="gc-step-item"><span class="gc-step-num">2</span><span class="gc-step-tx">앱에서 <b>‘시간 외 반납’</b> 선택 후 위치·사진 등록</span></div>
+                  <div class="gc-step-item" style="margin-bottom:0"><span class="gc-step-num">3</span><span class="gc-step-tx">등록 즉시 <b>반납 처리</b> — 추가 요금 없음</span></div>
+                </div>
+                <div class="gc-card"><p class="gc-card-t" style="margin:0">🅿️ 지정 구역 외 반납 <span style="margin-left:auto;color:var(--ink-3)">›</span></p></div>
+                <div class="gc-card"><p class="gc-card-t" style="margin:0">❓ 기타 예외 상황 <span style="margin-left:auto;color:var(--ink-3)">›</span></p></div>
+              </div>
+              <div class="gc-cta"><span class="gc-btn">안내대로 반납하기</span></div>
+            </div></div>
+          </figure>
+        </div>
+        <div class="st-points">
+          <p class="st-points-h">개선 포인트 — 각 변경은 VOC 근거에 연결됩니다</p>
+          <div class="st-point"><div class="st-pn">1</div><div class="st-pc">
+            <div class="st-pt">상황별 특수 반납 단계 안내</div>
+            <div class="st-pd">운영시간 외·지정 구역 외 등 예외 상황을 카드로 나눠, 고르면 무엇을 어떻게 하면 되는지 단계별로 안내합니다.</div>
+            <div class="st-pmeta"><span class="st-tagv">VOC 카테고리 10 · <b data-vc="c10"></b>건 · 안내 부재</span><span class="st-taglv">변경 수준: 안내</span></div>
+          </div></div>
+          <div class="st-point"><div class="st-pn">2</div><div class="st-pc">
+            <div class="st-pt">‘추가 요금 없음’ 안심 문구</div>
+            <div class="st-pd">예외 상황에서도 정상 절차만 따르면 불이익이 없음을 분명히 해, ‘막막함’과 ‘손해 볼까’ 하는 불안을 줄입니다.</div>
+            <div class="st-pmeta"><span class="st-tagv">VOC 카테고리 10 · 처리 방법 불명확</span><span class="st-taglv">변경 수준: 안내</span></div>
+          </div></div>
+        </div>
+        <div class="st-evnote"><span class="badge fact">사실</span>카테고리 10 특수 반납 안내는 누적 <b data-vc="c10"></b>건으로 규모는 작지만, 표준 반납 흐름으로 처리되지 않는 <b>예외 상황에서 안내가 없어</b> 반납이 막히는 유형입니다. 안내(콘텐츠) 레벨로 대응 가능합니다.</div>
+      </div>
+
+      <!-- ========== 화면 4: 차량 찾기·인수 ========== -->
+      <div class="st-panel" data-screen="find">
+        <div class="st-stage">
+          <figure class="st-device before">
+            <figcaption class="st-cap">현재 화면 <span class="st-cap-tag">예시 재현</span></figcaption>
+            <div class="st-screen"><div class="st-userimg"></div><div class="st-mock">
+              <div class="gc-status"><span>9:41</span><span class="dots"></span></div>
+              <div class="gc-bar"><span class="gc-back">‹</span><span>차량 인수</span></div>
+              <div class="gc-body">
+                <p class="gc-h">예약 차량</p>
+                <p class="gc-sub muted">주차장: <b>B2</b></p>
+                <div class="gc-map">
+                  <div class="gc-road" style="left:0;right:0;top:64px;height:10px"></div>
+                  <div class="gc-pin gray" style="left:120px;top:46px"><span>P</span></div>
+                </div>
+                <div class="gc-deadend">차량을 찾을 수 없나요?</div>
+                <p class="gc-sub muted">넓은 주차장에서 내 차가 몇 층 어디에 있는지 알기 어렵습니다.</p>
+              </div>
+              <div class="gc-cta"><span class="gc-btn">인수하기</span></div>
+            </div></div>
+          </figure>
+          <div class="st-arrow">→</div>
+          <figure class="st-device after">
+            <figcaption class="st-cap">개선 화면 <span class="st-cap-tag">G car DS 적용</span></figcaption>
+            <div class="st-screen"><div class="st-mock">
+              <div class="gc-status"><span>9:41</span><span class="dots"></span></div>
+              <div class="gc-bar"><span class="gc-back">‹</span><span>차량 찾기</span><span class="gc-step">인수 1 / 2</span></div>
+              <div class="gc-body">
+                <div class="gc-map">
+                  <div class="gc-road" style="left:0;right:0;top:64px;height:10px"></div>
+                  <div class="gc-road" style="top:0;bottom:0;left:120px;width:10px"></div>
+                  <div class="gc-zone" style="left:130px;top:80px;width:58px;height:36px"></div>
+                  <div class="gc-pin navy" style="left:150px;top:80px"><span>★</span></div>
+                </div>
+                <div class="gc-card">
+                  <p class="gc-card-t">📍 내 차 위치 <span class="gc-pill" style="margin-left:auto">정확도 높음</span></p>
+                  <div class="gc-row" style="border:none"><span><b>B2층 · A구역 14번</b></span></div>
+                </div>
+                <div class="gc-help"><span class="gc-q">i</span><span>앞 이용자가 반납하면 <b>위치가 즉시 갱신</b>되고, 편도로 둔 차도 현재 위치를 표시해요.</span></div>
+              </div>
+              <div class="gc-cta"><span class="gc-btn ghost gc-find">🔊 경적·비상등으로 찾기</span><span class="gc-btn">차량 인수</span></div>
+            </div></div>
+          </figure>
+        </div>
+        <div class="st-points">
+          <p class="st-points-h">개선 포인트 — 각 변경은 VOC 근거에 연결됩니다</p>
+          <div class="st-point"><div class="st-pn">1</div><div class="st-pc">
+            <div class="st-pt">층·구역 단위 상세 위치 안내</div>
+            <div class="st-pd">‘B2’ 같은 막연한 표시 대신 <b>몇 층 몇 번 구역</b>까지 콕 집어, 다층·광역 차고지에서 헤매지 않게 합니다.</div>
+            <div class="st-pmeta"><span class="st-tagv">VOC 카테고리 1 · <b data-vc="c1"></b>건 · 누적 2위</span><span class="st-taglv">변경 수준: 화면</span></div>
+          </div></div>
+          <div class="st-point"><div class="st-pn">2</div><div class="st-pc">
+            <div class="st-pt">경적·비상등으로 차 찾기</div>
+            <div class="st-pd">버튼을 누르면 차가 경적을 울리거나 비상등을 깜빡여, 위치로 내 차를 바로 찾게 합니다.</div>
+            <div class="st-pmeta"><span class="st-tagv">VOC 카테고리 1 · 위치 식별</span><span class="st-taglv">변경 수준: 진행 순서</span></div>
+          </div></div>
+          <div class="st-point"><div class="st-pn">3</div><div class="st-pc">
+            <div class="st-pt">반납 직후 위치 자동 갱신 + 편도 차량 표시</div>
+            <div class="st-pd">앞 이용자가 반납하자마자 위치를 최신화하고 정확도를 보여주며, 편도로 둔 차의 현재 위치도 분명히 표시합니다.</div>
+            <div class="st-pmeta"><span class="st-tagv">VOC 카테고리 1 · 위치 정확도·편도</span><span class="st-taglv">변경 수준: 안내</span></div>
+          </div></div>
+        </div>
+        <div class="st-evnote"><span class="badge fact">사실</span>카테고리 1 인수/대여 프로세스 불편은 누적 <b data-vc="c1"></b>건(<b data-vs="c1"></b>%)으로 <b>2순위</b>이며, 전수 구간에서 <b>비중 3개월 연속 상승</b> 중. 차를 못 찾으면 대여 시작 자체가 막히는 차단 유형입니다.</div>
+      </div>
+
+      <!-- ========== 화면 5: 스마트키 빠른 제어 ========== -->
+      <div class="st-panel" data-screen="key">
+        <div class="st-stage">
+          <figure class="st-device before">
+            <figcaption class="st-cap">현재 화면 <span class="st-cap-tag">예시 재현</span></figcaption>
+            <div class="st-screen"><div class="st-userimg"></div><div class="st-mock">
+              <div class="gc-status"><span>9:41</span><span class="dots"></span></div>
+              <div class="gc-bar"><span class="gc-back">‹</span><span>스마트키</span></div>
+              <div class="gc-body">
+                <p class="gc-h">차량 제어</p>
+                <p class="gc-sub muted">앱 → 내 예약 → 차량 제어까지 여러 단계를 거쳐야 합니다.</p>
+                <div class="gc-listrow">내 예약 <span class="gc-chev">›</span></div>
+                <div class="gc-listrow">차량 제어 <span class="gc-chev">›</span></div>
+                <div class="gc-listrow">잠금 / 해제 <span class="gc-chev">›</span></div>
+                <p class="gc-sub muted">지금 잠겼는지, 경적·비상등은 어디인지 한눈에 안 보입니다.</p>
+              </div>
+              <div class="gc-cta"><span class="gc-btn">잠금</span></div>
+            </div></div>
+          </figure>
+          <div class="st-arrow">→</div>
+          <figure class="st-device after">
+            <figcaption class="st-cap">개선 화면 <span class="st-cap-tag">G car DS 적용</span></figcaption>
+            <div class="st-screen"><div class="st-mock">
+              <div class="gc-home">
+                <div class="gc-home-top"><div class="gc-home-clock">9:41</div><div class="gc-home-date">6월 17일 화요일 · 홈 화면</div></div>
+                <div class="gc-dots"><i></i><i></i><i></i><i></i></div>
+                <div class="gc-widget">
+                  <div class="gc-widget-h">🚗 G car<span class="gc-lockstate">● 잠김</span></div>
+                  <div class="gc-widget-btns"><span class="gc-wbtn lock">잠금</span><span class="gc-wbtn unlock">해제</span></div>
+                  <div class="gc-widget-mini"><span>🔊 경적</span><span>💡 비상등</span><span>📍 위치</span></div>
+                </div>
+                <div class="gc-home-cap">앱을 열지 않고 <b>홈 위젯</b>에서 바로</div>
+              </div>
+            </div></div>
+          </figure>
+        </div>
+        <div class="st-points">
+          <p class="st-points-h">개선 포인트 — 각 변경은 VOC 근거에 연결됩니다</p>
+          <div class="st-point"><div class="st-pn">1</div><div class="st-pc">
+            <div class="st-pt">홈 위젯 — 앱 진입 없이 잠금/해제</div>
+            <div class="st-pd">휴대폰 첫 화면의 작은 바로가기로 앱을 열지 않고 문을 바로 잠그고 엽니다. 급할 때 누르는 횟수를 크게 줄입니다.</div>
+            <div class="st-pmeta"><span class="st-tagv">VOC 카테고리 5 · <b data-vc="c5"></b>건 · 누적 3위</span><span class="st-taglv">변경 수준: 화면</span></div>
+          </div></div>
+          <div class="st-point"><div class="st-pn">2</div><div class="st-pc">
+            <div class="st-pt">잠금 상태 한눈에 + 상태바 상시 제어</div>
+            <div class="st-pd">위젯·알림 영역에 ‘잠김/해제’ 상태를 늘 보여줘, 지금 차가 잠겼는지 바로 확인할 수 있습니다.</div>
+            <div class="st-pmeta"><span class="st-tagv">VOC 카테고리 5 · 상태 확인</span><span class="st-taglv">변경 수준: 화면</span></div>
+          </div></div>
+          <div class="st-point"><div class="st-pn">3</div><div class="st-pc">
+            <div class="st-pt">경적·비상등 1탭</div>
+            <div class="st-pd">깊이 숨어 있던 경적·비상등 제어를 위젯에 꺼내, 한 번에 차를 찾을 수 있게 합니다.</div>
+            <div class="st-pmeta"><span class="st-tagv">VOC 카테고리 5 · 접근성</span><span class="st-taglv">변경 수준: 진행 순서</span></div>
+          </div></div>
+        </div>
+        <div class="st-evnote"><span class="badge fact">사실</span>카테고리 5 스마트키 개선 및 위젯 추가는 누적 <b data-vc="c5"></b>건(<b data-vs="c5"></b>%). 신규 기능 요구(위젯·상태바) 성격이라 <span class="badge dept">협의</span>위젯·상태바는 개발 리소스 협의가 필요합니다.</div>
+      </div>
+
+      <!-- ========== 화면 6: 매너평가 ========== -->
+      <div class="st-panel" data-screen="manner">
+        <div class="st-stage">
+          <figure class="st-device before">
+            <figcaption class="st-cap">현재 화면 <span class="st-cap-tag">예시 재현</span></figcaption>
+            <div class="st-screen"><div class="st-userimg"></div><div class="st-mock">
+              <div class="gc-status"><span>9:41</span><span class="dots"></span></div>
+              <div class="gc-bar"><span class="gc-back">‹</span><span>매너평가</span></div>
+              <div class="gc-body">
+                <p class="gc-h">이번 이용은 어떠셨나요?</p>
+                <div class="gc-stars"><span class="off">★</span><span class="off">★</span><span class="off">★</span><span class="off">★</span><span class="off">★</span></div>
+                <div class="gc-deadend" style="background:#f1e3e0;color:#a36">평가 중에는 차문이 잠겨 다시 탈 수 없습니다.</div>
+                <p class="gc-sub muted">무엇을 어떤 기준으로 매겨야 하는지, 왜 해야 하는지 안내가 없습니다.</p>
+              </div>
+              <div class="gc-cta"><span class="gc-btn">평가 완료</span></div>
+            </div></div>
+          </figure>
+          <div class="st-arrow">→</div>
+          <figure class="st-device after">
+            <figcaption class="st-cap">개선 화면 <span class="st-cap-tag">G car DS 적용</span></figcaption>
+            <div class="st-screen"><div class="st-mock">
+              <div class="gc-status"><span>9:41</span><span class="dots"></span></div>
+              <div class="gc-bar"><span class="gc-back">‹</span><span>매너평가</span></div>
+              <div class="gc-body">
+                <div class="gc-doorbtn">🚪 문 열기 — 평가 중에도 차에 다시 탈 수 있어요</div>
+                <p class="gc-h">이번 이용은 어떠셨나요?</p>
+                <div class="gc-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span class="off">★</span></div>
+                <div class="gc-card">
+                  <p class="gc-card-t" style="margin-bottom:6px">평가 기준</p>
+                  <div class="gc-row" style="padding:3px 0;border:none">🧼 청결 상태</div>
+                  <div class="gc-row" style="padding:3px 0;border:none">🅿️ 주차 매너</div>
+                  <div class="gc-row" style="padding:3px 0;border:none">⏰ 반납 시간 준수</div>
+                </div>
+                <div class="gc-success"><span class="gc-sc">P</span>평가하면 <b>500P</b> 적립</div>
+              </div>
+              <div class="gc-cta"><span class="gc-btn">평가 완료</span></div>
+            </div></div>
+          </figure>
+        </div>
+        <div class="st-points">
+          <p class="st-points-h">개선 포인트 — 각 변경은 VOC 근거에 연결됩니다</p>
+          <div class="st-point"><div class="st-pn">1</div><div class="st-pc">
+            <div class="st-pt">평가 화면 안 ‘문 열기’ 버튼 — 갇힘 방지</div>
+            <div class="st-pd">매너평가 중 차문이 잠겨 다시 못 타는 상황을 막기 위해, 평가 화면에서 바로 문을 열 수 있게 합니다.</div>
+            <div class="st-pmeta"><span class="st-tagv">VOC 카테고리 3 · <b data-vc="c3"></b>건 · 심각도 높음</span><span class="st-taglv">변경 수준: 화면</span></div>
+          </div></div>
+          <div class="st-point"><div class="st-pn">2</div><div class="st-pc">
+            <div class="st-pt">평가 기준 안내</div>
+            <div class="st-pd">청결·주차·시간 등 무엇을 보고 매기는지 그 자리에서 보여줘, ‘무슨 기준인지 모르겠다’를 해소합니다.</div>
+            <div class="st-pmeta"><span class="st-tagv">VOC 카테고리 3 · 기준 이해</span><span class="st-taglv">변경 수준: 진행 순서</span></div>
+          </div></div>
+          <div class="st-point"><div class="st-pn">3</div><div class="st-pc">
+            <div class="st-pt">참여 리워드</div>
+            <div class="st-pd">평가에 참여하면 포인트를 주는 방안으로 참여 동기를 높입니다(리워드 도입은 정책·비용 협의 필요).</div>
+            <div class="st-pmeta"><span class="st-tagv">VOC 카테고리 3 · 참여 동기</span><span class="st-taglv">변경 수준: 안내</span></div>
+          </div></div>
+        </div>
+        <div class="st-evnote"><span class="badge fact">사실</span>카테고리 3 매너평가 플로우는 누적 <b data-vc="c3"></b>건(<b data-vs="c3"></b>%)으로, 규모 대비 <b>심각도가 높은</b> 유형(평가 중 차문 잠김 = 갇힘). ‘문 열기’ 버튼은 즉효성 높은 개선입니다.</div>
+      </div>
+
+      <!-- 디자인 시스템 키트 -->
+      <details class="plain st-kit">
+        <summary>🧩 이 개선안에 쓰인 G car 디자인 시스템</summary>
+        <div class="p-body">
+          <div class="st-kit-grid">
+            <div class="st-kit-b">
+              <h4>색상</h4>
+              <div class="st-sw"><i style="background:#436378"></i>Navy 050 · #436378 (주색)</div>
+              <div class="st-sw"><i style="background:#A1B1BB"></i>Navy 030 · #A1B1BB (보조)</div>
+              <div class="st-sw"><i style="background:#e0533c"></i>Coral · #e0533c (경고)</div>
+              <div class="st-sw"><i style="background:#f6f9fa;"></i>Gray Scale (배경·면)</div>
+            </div>
+            <div class="st-kit-b">
+              <h4>타이포</h4>
+              <div class="st-sw" style="font-weight:800;color:var(--ink)">Noto Sans KR · Bold</div>
+              <div class="st-sw" style="font-weight:500;color:var(--ink)">Noto Sans KR · Medium</div>
+              <div class="st-sw">제목 13 · 본문 11–12 · 캡션 10</div>
+            </div>
+            <div class="st-kit-b">
+              <h4>컴포넌트</h4>
+              <div style="margin-bottom:8px"><span class="kbtn" style="background:var(--navy);color:#fff">기본 버튼</span></div>
+              <div style="margin-bottom:8px"><span class="kbtn" style="background:#fff;color:var(--navy);border:1.5px solid var(--navy)">보조 버튼</span></div>
+              <div><span class="gc-pill">알약 태그</span> <span class="gc-pill coral">코랄 경고</span></div>
+            </div>
+            <div class="st-kit-b">
+              <h4>4원칙</h4>
+              <div class="st-sw">체계적 · 확장 가능</div>
+              <div class="st-sw">재사용 가능 · 포용적</div>
+              <div class="st-sw" style="color:var(--ink-3)">둥근 카드(16) · 알약 태그 · 코랄레드 경고</div>
+            </div>
+          </div>
+        </div>
+      </details>
+    </div>
   </section>
 
   <!-- 최근 3개월 비교 (같은 방법으로 모은 구간) -->
@@ -571,6 +1193,65 @@
   /* ── 데이터 한계 ── */
   document.getElementById("limit-summary").innerHTML = "이 숫자를 읽을 때 주의할 점 " + D.limitations.length + "가지 <span style='color:var(--ink-3);font-weight:400'>(핵심: 시기끼리 비교 금지 · 비율 아닌 건수로 해석) — 펼쳐 보기</span>";
   document.getElementById("limitations").innerHTML = D.limitations.map(function (t) { return '<li><span class="badge fact">사실</span>' + t + "</li>"; }).join("");
+})();
+</script>
+
+<!-- 🎨 UI 개선안 스튜디오 — 동작 -->
+<script>
+(function () {
+  "use strict";
+  var D = window.VOC_DATA; if (!D) return;
+  var byCat = D.cumulative.byCategory, total = D.cumulative.total;
+  function fmt(n) { return n.toLocaleString("ko-KR"); }
+  function pct(p, w, d) { return (p / w * 100).toFixed(d === undefined ? 1 : d); }
+  var bundle = ["c2", "c9", "c10"].reduce(function (a, k) { return a + (byCat[k] || 0); }, 0);
+
+  /* VOC 수치 주입 — data.js에서 자동 도출(하드코딩 없음) */
+  function fill(sel, fn) { Array.prototype.forEach.call(document.querySelectorAll(sel), fn); }
+  fill("[data-vc]", function (el) { el.textContent = fmt(byCat[el.getAttribute("data-vc")] || 0); });
+  fill("[data-vs]", function (el) { el.textContent = pct(byCat[el.getAttribute("data-vs")] || 0, total); });
+  fill("[data-vb]", function (el) { el.textContent = fmt(bundle); });
+  fill("[data-vbs]", function (el) { el.textContent = pct(bundle, total, 0); });
+
+  /* 화면 탭 전환 */
+  var panels = document.querySelectorAll(".st-panel");
+  var tabs = document.querySelectorAll("#st-tabs button");
+  Array.prototype.forEach.call(tabs, function (b) {
+    b.addEventListener("click", function () {
+      var s = b.getAttribute("data-screen");
+      Array.prototype.forEach.call(tabs, function (t) { t.classList.toggle("active", t === b); });
+      Array.prototype.forEach.call(panels, function (p) { p.classList.toggle("is-active", p.getAttribute("data-screen") === s); });
+    });
+  });
+
+  /* 현재 화면 첨부 — 활성 탭 Before 자리에 내 이미지 (브라우저 내 처리, 업로드 없음) */
+  var fileInput = document.getElementById("st-file");
+  var resetBtn = document.getElementById("st-reset");
+  function activePanel() { return document.querySelector(".st-panel.is-active"); }
+  fileInput.addEventListener("change", function (e) {
+    var f = e.target.files && e.target.files[0]; if (!f) return;
+    var rd = new FileReader();
+    rd.onload = function (ev) {
+      var p = activePanel(); if (!p) return;
+      var scr = p.querySelector(".st-device.before .st-screen");
+      var img = p.querySelector(".st-device.before .st-userimg");
+      var cap = p.querySelector(".st-device.before .st-cap-tag");
+      img.style.backgroundImage = "url(" + ev.target.result + ")";
+      scr.classList.add("has-user");
+      if (cap) cap.textContent = "내 화면";
+      resetBtn.style.display = "";
+    };
+    rd.readAsDataURL(f);
+    e.target.value = "";
+  });
+  resetBtn.addEventListener("click", function () {
+    Array.prototype.forEach.call(document.querySelectorAll(".st-device.before .st-screen.has-user"), function (scr) {
+      scr.classList.remove("has-user");
+      var img = scr.querySelector(".st-userimg"); if (img) img.style.backgroundImage = "";
+    });
+    Array.prototype.forEach.call(document.querySelectorAll(".st-device.before .st-cap-tag"), function (t) { t.textContent = "예시 재현"; });
+    resetBtn.style.display = "none";
+  });
 })();
 </script>
 </body>
