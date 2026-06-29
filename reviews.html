@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+<script>(function(){try{var t=localStorage.getItem('voc-theme');if(t!=='light'&&t!=='dark'){t=(window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches)?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','light');}})();</script>
 <title>G car 후기 원문 — 카테고리별 | VOC 대시보드</title>
 <meta name="description" content="분류 확정된 사용 후기 원문을 카테고리별로 — 반복 키워드·감정 톤·전체 맥락">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%23436378'/><text x='50' y='56' font-size='62' font-weight='800' fill='white' text-anchor='middle' dominant-baseline='central' font-family='sans-serif'>G</text></svg>">
@@ -17,6 +19,19 @@
     --bg:#f4f6f7; --card:#fff; --line:#e4e8ea; --line-2:#eef1f2;
     --ink:#16242e; --ink-2:#4a5560; --ink-3:#6b7680; --navy:#436378; --navy-deep:#22384a; --navy-bg:#eaf1f4;
     --up:#c0531f; --num:"Pretendard Variable","Pretendard","Noto Sans KR",sans-serif;
+    --c1:#4e79a7; --c2:#22384a; --c3:#59a14f; --c4:#d9534f; --c5:#56a8a3;
+    --c6:#dcab3c; --c7:#9a6fb0; --c8:#e391a0; --c9:#8d6e63; --c10:#7fb1ab;
+    --nav-bg:rgba(244,246,247,.9); --hover:#eef1f2; --track:#f1f3f4; --mark:#fde9c8;
+    --warn-fg:#8a3c12; --warn-bg:#fbe7da;
+  }
+  :root[data-theme="dark"] {
+    --bg:#0f161b; --card:#162028; --line:#27343d; --line-2:#1c2730;
+    --ink:#e8eef2; --ink-2:#aebac4; --ink-3:#8694a0; --navy:#5b86a3; --navy-deep:#a8c6da; --navy-bg:#15303d;
+    --up:#e2774a;
+    --c1:#6f9ccb; --c2:#5e87ac; --c3:#7cc070; --c4:#e8746f; --c5:#6fc3bd;
+    --c6:#e6bd5a; --c7:#b78fd0; --c8:#eaa6b3; --c9:#b39184; --c10:#9cc8c2;
+    --nav-bg:rgba(15,22,27,.9); --hover:#222d35; --track:#222d35; --mark:#5a4520;
+    --warn-fg:#e8a866; --warn-bg:#33240f;
   }
   * { box-sizing:border-box; }
   html { scroll-behavior:smooth; }
@@ -24,7 +39,12 @@
     font-family:"Pretendard Variable","Pretendard","Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",-apple-system,sans-serif; }
   .wrap { max-width:920px; margin:0 auto; padding:0 22px 80px; }
   a { color:var(--navy); }
-  header.top { padding:26px 0 12px; }
+  header.top { padding:26px 0 12px; position:relative; }
+  .theme-btn { position:absolute; top:22px; right:0; font-size:15px; line-height:1; cursor:pointer;
+    background:var(--card); color:var(--ink-2); border:1px solid var(--line); border-radius:999px;
+    width:32px; height:32px; display:inline-flex; align-items:center; justify-content:center; padding:0; }
+  .theme-btn:hover { background:var(--hover); color:var(--ink); }
+  .theme-btn:focus-visible { outline:2px solid var(--navy); outline-offset:2px; }
   header.top .back { font-size:12px; color:var(--ink-3); text-decoration:none; }
   header.top .back:hover { color:var(--navy); }
   header.top h1 { font-size:23px; margin:6px 0 5px; letter-spacing:-.4px; }
@@ -32,13 +52,13 @@
   header.top .note { font-size:12px; color:var(--ink-3); margin-top:6px; }
   header.top .note b { color:var(--up); }
 
-  .controls { position:sticky; top:0; z-index:20; background:rgba(244,246,247,.9); backdrop-filter:blur(8px);
+  .controls { position:sticky; top:0; z-index:20; background:var(--nav-bg); backdrop-filter:blur(8px);
     padding:12px 0; margin-bottom:16px; border-bottom:1px solid var(--line); }
-  .search { width:100%; font:inherit; font-size:14px; padding:10px 13px; border:1px solid var(--line); border-radius:10px; background:#fff; color:var(--ink); }
+  .search { width:100%; font:inherit; font-size:14px; padding:10px 13px; border:1px solid var(--line); border-radius:10px; background:var(--card); color:var(--ink); }
   .search::placeholder { color:var(--ink-3); }
   .chips { display:flex; gap:6px; overflow-x:auto; padding-top:10px; }
-  .chip { flex:0 0 auto; font:inherit; font-size:12px; font-weight:700; color:var(--ink-2); background:#fff; border:1px solid var(--line); border-radius:999px; padding:5px 12px; cursor:pointer; white-space:nowrap; }
-  .chip:hover { background:#eef1f2; }
+  .chip { flex:0 0 auto; font:inherit; font-size:12px; font-weight:700; color:var(--ink-2); background:var(--card); border:1px solid var(--line); border-radius:999px; padding:5px 12px; cursor:pointer; white-space:nowrap; }
+  .chip:hover { background:var(--hover); }
   .chip.active { background:var(--navy); border-color:var(--navy); color:#fff; }
   .chip .n { opacity:.7; font-weight:600; margin-left:3px; }
 
@@ -59,11 +79,11 @@
   .rev-meta { display:flex; align-items:center; gap:8px; margin-bottom:6px; flex-wrap:wrap; }
   .rev-date { font-size:12px; color:var(--ink-3); font-family:var(--num); font-variant-numeric:tabular-nums; }
   .rev-scores { display:flex; gap:5px; flex-wrap:wrap; }
-  .sc { font-size:11px; color:var(--ink-2); background:#f1f3f4; border-radius:5px; padding:1px 6px; font-variant-numeric:tabular-nums; }
+  .sc { font-size:11px; color:var(--ink-2); background:var(--track); border-radius:5px; padding:1px 6px; font-variant-numeric:tabular-nums; }
   .sc.rec-low { color:#fff; background:var(--up); }
   .sc.rec-hi { color:#fff; background:var(--navy); }
   .rev-text { font-size:14px; color:var(--ink); line-height:1.65; white-space:pre-wrap; word-break:break-word; }
-  mark { background:#fde9c8; color:inherit; border-radius:3px; padding:0 1px; }
+  mark { background:var(--mark); color:inherit; border-radius:3px; padding:0 1px; }
   .empty { color:var(--ink-3); font-size:13px; padding:30px 0; text-align:center; }
   footer { color:var(--ink-3); font-size:12px; margin-top:30px; text-align:center; }
   a.focusable:focus-visible, .chip:focus-visible, .search:focus-visible { outline:2px solid var(--navy); outline-offset:2px; }
@@ -73,6 +93,7 @@
 <body>
 <div class="wrap">
   <header class="top">
+    <button id="themeToggle" class="theme-btn" type="button" aria-label="다크/라이트 전환" title="다크/라이트 전환">🌙</button>
     <a class="back focusable" href="index.html">← VOC 대시보드로</a>
     <h1>후기 원문 — 카테고리별</h1>
     <div class="sub">분류 확정된 사용 후기를 카테고리별로 모았습니다 — 반복 키워드 · 감정 톤 · 전체 맥락.</div>
@@ -93,7 +114,7 @@
   "use strict";
   var D = window.VOC_DATA, R = window.VOC_RAW;
   function cat(key){ return D.categories.find(function(c){return c.key===key;}); }
-  var CAT_COLORS = { c1:"#4e79a7", c2:"#22384a", c3:"#59a14f", c4:"#d9534f", c5:"#56a8a3", c6:"#dcab3c", c7:"#9a6fb0", c8:"#e391a0", c9:"#8d6e63", c10:"#7fb1ab" };
+  function catVar(k){ return "var(--"+k+")"; }  /* 카테고리 색 = CSS 변수 (다크 자동 전환) */
 
   document.getElementById("meta-note").innerHTML = "기간 " + R.meta.period + " · 총 <b>" + R.meta.total + "건</b> (분류 확정분) · <b>고객번호 등 개인정보는 제외</b>했습니다.";
   document.getElementById("footer").textContent = "후기 원문 — 분류 확정분만 · 고객번호 미포함 · 누적 확대 예정";
@@ -134,10 +155,10 @@
     return { avg:avg, neg:neg, label:label };
   }
   function sentiColor(avg){
-    if (avg===null) return {c:"var(--ink-2)",b:"#eef1f2"};
+    if (avg===null) return {c:"var(--ink-2)",b:"var(--track)"};
     if (avg < 5) return {c:"#fff",b:"var(--up)"};
-    if (avg < 7.5) return {c:"#8a3c12",b:"#fbe7da"};
-    if (avg < 9) return {c:"var(--ink-2)",b:"#eef1f2"};
+    if (avg < 7.5) return {c:"var(--warn-fg)",b:"var(--warn-bg)"};
+    if (avg < 9) return {c:"var(--ink-2)",b:"var(--track)"};
     return {c:"var(--navy)",b:"var(--navy-bg)"};
   }
   function esc(s){ return s.replace(/[&<>]/g,function(m){return {"&":"&amp;","<":"&lt;",">":"&gt;"}[m];}); }
@@ -161,7 +182,7 @@
   var html = "";
   order.forEach(function(k){
     var list = R.byCat[k].slice().sort(function(a,b){ return a.d-b.d; });
-    var col = CAT_COLORS[k], c = cat(k);
+    var col = catVar(k), c = cat(k);
     var kw = topKeywords(list, 12), se = sentiment(list), sc = sentiColor(se.avg);
     html += '<section class="catsec" id="sec-'+k+'" data-k="'+k+'">';
     html += '<div class="cat-head"><span class="cat-pill" style="background:'+col+'">카테고리 '+c.num+'</span><span class="cat-title">'+c.name+'</span><span class="cat-count">'+list.length+'건</span>';
@@ -214,6 +235,20 @@
     });
     document.getElementById("noresult").style.display = anyShown ? "none" : "";
   }
+
+  // ── 다크/라이트 토글 ──
+  (function(){
+    var btn = document.getElementById("themeToggle");
+    function isDark(){ return document.documentElement.getAttribute("data-theme")==="dark"; }
+    function sync(){ var d=isDark(); if(btn){ btn.textContent=d?"☀️":"🌙"; btn.setAttribute("aria-pressed", d?"true":"false"); } }
+    sync();
+    if(btn) btn.addEventListener("click", function(){
+      var next = isDark() ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", next);
+      try{ localStorage.setItem("voc-theme", next); }catch(e){}
+      sync();
+    });
+  })();
 })();
 </script>
 </body>
