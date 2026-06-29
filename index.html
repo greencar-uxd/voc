@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+<script>(function(){try{var t=localStorage.getItem('voc-theme');if(t!=='light'&&t!=='dark'){t=(window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches)?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','light');}})();</script>
 <title>G car 사용자 후기(VOC) 대시보드</title>
 <meta name="description" content="고객의 소리(VOC)로 찾는 앱 개선 우선순위 — 월별 추이·카테고리별 불편과 개선 방향을 한눈에">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%23436378'/><text x='50' y='56' font-size='62' font-weight='800' fill='white' text-anchor='middle' dominant-baseline='central' font-family='sans-serif'>G</text></svg>">
@@ -37,7 +39,40 @@
     --r-past5: #b7c2c9; --r-excerpt: #7f9aab; --r-full: #3a5a6e;  /* 수집구간 = 네이비 단계 (주황 제거) */
     --navy: #436378; --navy-030: #A1B1BB; --navy-bg: #eaf1f4; --navy-deep: #22384a;
     --num: "Pretendard Variable", "Pretendard", "Noto Sans KR", "Apple SD Gothic Neo", sans-serif;
+    /* 카테고리 색 (색=의미 1:1) — 차트/칩/막대 공용. 다크에서 밝은 버전으로 오버라이드 */
+    --c1:#4e79a7; --c2:#22384a; --c3:#59a14f; --c4:#d9534f; --c5:#56a8a3;
+    --c6:#dcab3c; --c7:#9a6fb0; --c8:#e391a0; --c9:#8d6e63; --c10:#7fb1ab; --c-unknown:#d6d9dd;
+    /* 히어로 그라데이션 */
+    --hero-1:#fbfcfc; --hero-2:#ffffff;
+    --shadow: 0 1px 2px rgba(22,36,46,.04);
+    --nav-bg: rgba(246,247,248,0.85); --hover:#eceef1; --track:#f1f2f4;
   }
+  /* ───────────── 다크모드 ───────────── */
+  :root[data-theme="dark"] {
+    --bg:#0f161b; --card:#162028; --line:#27343d; --line-2:#1c2730;
+    --ink:#e8eef2; --ink-2:#aebac4; --ink-3:#8694a0; --accent:#7da7c2;
+    --fact:#7da7c2;  --fact-bg:#15303d;
+    --infer:#e0a063; --infer-bg:#33240f;
+    --check:#9aa6b0; --check-bg:#222d35;
+    --up:#e2774a;    --down:#7da7c2;
+    --r-past5:#7e8b95; --r-excerpt:#9fbacb; --r-full:#7aa6c4;
+    --navy:#5b86a3; --navy-030:#3c5260; --navy-bg:#15303d; --navy-deep:#a8c6da;
+    --c1:#6f9ccb; --c2:#5e87ac; --c3:#7cc070; --c4:#e8746f; --c5:#6fc3bd;
+    --c6:#e6bd5a; --c7:#b78fd0; --c8:#eaa6b3; --c9:#b39184; --c10:#9cc8c2; --c-unknown:#3b4650;
+    --hero-1:#18242c; --hero-2:#131d24;
+    --shadow: 0 1px 2px rgba(0,0,0,.3);
+    --nav-bg: rgba(15,22,27,0.85); --hover:#222d35; --track:#222d35;
+  }
+  /* 다크 — 틴트 칩/뱃지/콜아웃(밝은 파스텔 배경) 보정 */
+  :root[data-theme="dark"] .s-head .tag-care,
+  :root[data-theme="dark"] .sev.high { color:#e8a866; background:#33240f; }
+  :root[data-theme="dark"] .kpi.warn { background:#241c12; border-color:#3d3018; }
+  :root[data-theme="dark"] .callout.warn { background:#241c12; border-left-color:#d98324; }
+  :root[data-theme="dark"] .scope-box.out { background:#241c14; border-color:#3d3020; }
+  :root[data-theme="dark"] .badge.dept { color:#bda6ec; background:#241a3a; }
+  :root[data-theme="dark"] .lvl { background:#1f2b45; color:#9fb0e0; }
+  :root[data-theme="dark"] .sev.mid { color:#b8c0c8; background:#222d35; }
+  :root[data-theme="dark"] .sev.low { color:#8694a0; background:#1c2730; }
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
   body { margin: 0; background: var(--bg); color: var(--ink);
@@ -49,11 +84,16 @@
   header.top h1 { font-size: 24px; margin: 0 0 5px; letter-spacing: -0.4px; }
   header.top .sub { color: var(--ink-3); font-size: 12px; }
 
-  nav.toc { position: sticky; top: 0; z-index: 30; background: rgba(246,247,248,0.85);
+  nav.toc { position: sticky; top: 0; z-index: 30; background: var(--nav-bg);
     backdrop-filter: blur(8px); border-bottom: 1px solid var(--line);
-    display: flex; gap: 4px; overflow-x: auto; padding: 8px 0; margin-bottom: 22px; }
+    display: flex; gap: 4px; overflow-x: auto; padding: 8px 0; margin-bottom: 22px; align-items: center; }
   nav.toc a { flex: 0 0 auto; font-size: 12px; color: var(--ink-2); text-decoration: none; padding: 5px 11px; border-radius: 7px; white-space: nowrap; }
-  nav.toc a:hover { background: #eceef1; color: var(--ink); }
+  nav.toc a:hover { background: var(--hover); color: var(--ink); }
+  .theme-btn { flex: 0 0 auto; margin-left: auto; font-size: 15px; line-height: 1; cursor: pointer;
+    background: var(--card); color: var(--ink-2); border: 1px solid var(--line); border-radius: 999px;
+    width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; padding: 0; }
+  .theme-btn:hover { background: var(--hover); color: var(--ink); }
+  .theme-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
   section { scroll-margin-top: 58px; margin-bottom: 30px; }
   .s-head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 4px; flex-wrap: wrap; }
@@ -108,13 +148,13 @@
   .sortbar { display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
   .sortbar .lbl { font-size: 12px; color: var(--ink-3); margin-right: 3px; }
   .sortbar button, .toolbar .expand { font: inherit; font-size: 12px; color: var(--ink-2); background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 5px 11px; cursor: pointer; }
-  .sortbar button:hover, .toolbar .expand:hover { background: #f0f1f3; }
+  .sortbar button:hover, .toolbar .expand:hover { background: var(--hover); }
   .sortbar button.active { background: var(--accent); border-color: var(--accent); color: #fff; }
 
   details.insight { background: var(--card); border: 1px solid var(--line); border-radius: 12px; margin-bottom: 9px; overflow: hidden; }
   details.insight > summary { list-style: none; cursor: pointer; padding: 13px 16px; display: flex; align-items: center; gap: 11px; flex-wrap: wrap; }
   details.insight > summary::-webkit-details-marker { display: none; }
-  details.insight > summary:hover { background: #fafbfc; }
+  details.insight > summary:hover { background: var(--hover); }
   .sum-name { font-weight: 700; font-size: 14px; letter-spacing: -0.3px; }
   .sum-right { margin-left: auto; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
   .sum-stat { font-size: 12px; color: var(--ink-2); }
@@ -151,7 +191,7 @@
   details.plain li { margin-bottom: 7px; color: var(--ink-2); }
 
   /* 카테고리 캡슐 태그 (모든 카테고리 표기 공통) */
-  .ctag { display: inline-flex; align-items: center; gap: 6px; padding: 2px 11px 2px 3px; border-radius: 999px; background: #f1f2f4; white-space: nowrap; line-height: 1.6; vertical-align: middle; }
+  .ctag { display: inline-flex; align-items: center; gap: 6px; padding: 2px 11px 2px 3px; border-radius: 999px; background: var(--track); white-space: nowrap; line-height: 1.6; vertical-align: middle; }
   .ctag-n { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 999px; background: var(--cc, #888); color: #fff; font-size: 12px; font-weight: 800; }
   .ctag-nm { font-size: 12px; font-weight: 600; color: var(--ink); letter-spacing: -0.2px; }
   .cap-legend { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 14px; }
@@ -161,7 +201,7 @@
   .dist-row { display: grid; grid-template-columns: 272px 1fr auto; align-items: center; gap: 13px; }
   .dist-label { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
   .dist-name { font-size: 12px; font-weight: 600; color: var(--ink); letter-spacing: -0.2px; }
-  .dist-bar { background: #f1f2f4; border-radius: 6px; height: 16px; overflow: hidden; }
+  .dist-bar { background: var(--track); border-radius: 6px; height: 16px; overflow: hidden; }
   .dist-fill { height: 100%; border-radius: 6px; min-width: 3px; }
   .dist-val { font-size: 12px; color: var(--ink-2); white-space: nowrap; font-variant-numeric: tabular-nums; }
   .dist-val b { color: var(--ink); font-weight: 800; }
@@ -241,7 +281,7 @@
   }
 
   /* ── 시그니처 히어로: 지배적 사실 하나 ── */
-  .hero { position: relative; background: linear-gradient(180deg,#fbfcfc,#ffffff); border: 1px solid var(--line); border-radius: 18px; padding: 24px 26px 20px; }
+  .hero { position: relative; background: linear-gradient(180deg,var(--hero-1),var(--hero-2)); border: 1px solid var(--line); border-radius: 18px; padding: 24px 26px 20px; }
   .hero .eyebrow { font-size: 12px; font-weight: 800; letter-spacing: .04em; color: var(--ink-3); }
   .hero .eyebrow b { color: var(--up); }
   .hero-grid { display: grid; grid-template-columns: auto 1fr; gap: 28px; align-items: center; margin-top: 8px; }
@@ -279,6 +319,7 @@
     <a href="#sec-stack">월별 구성</a>
     <a href="#sec-trend">19개월 추이</a>
     <a href="#sec-limit">데이터 한계</a>
+    <button id="themeToggle" class="theme-btn" type="button" aria-label="다크/라이트 전환" title="다크/라이트 전환">🌙</button>
   </nav>
 
   <!-- 처음 보세요? (온보딩 + 용어 풀이) -->
@@ -384,16 +425,23 @@
   function pct(p, w, d) { return (p / w * 100).toFixed(d === undefined ? 1 : d); }
   function cat(key) { return D.categories.find(function (x) { return x.key === key; }); }
   function catFull(key) { var c = cat(key); return "카테고리 " + c.num + " " + c.name; }
-  function regimeColor(r) { return { past5: "#b7c2c9", excerpt: "#7f9aab", full: "#3a5a6e" }[r]; }
+  function cc(v) { return getComputedStyle(document.documentElement).getPropertyValue(v).trim() || "#888"; }
+  function isDark() { return document.documentElement.getAttribute("data-theme") === "dark"; }
+  function regimeColor(r) { return cc("--r-" + r); }
+  function chTheme() { return isDark()
+    ? { grid: "rgba(255,255,255,0.09)", axis: cc("--ink-3"), hole: cc("--card"), anno: "#e0954a" }
+    : { grid: "#f0f1f3", axis: "#6b7680", hole: "#ffffff", anno: "#b4540a" }; }
   function monthLabel(m) { var l = m.ym.replace("-", "."); if (m.partial) l += " (" + m.partialLabel + ")"; return l; }
   function monthShort(m) { return m.ym.replace("-", ".") + (m.partial ? " (진행)" : ""); }
   var SEV = { "높음": { cls: "high", w: 3 }, "중간": { cls: "mid", w: 2 }, "낮음": { cls: "low", w: 1 } };
 
-  var CAT_COLORS = { c1: "#4e79a7", c2: "#22384a", c3: "#59a14f", c4: "#d9534f", c5: "#56a8a3", c6: "#dcab3c", c7: "#9a6fb0", c8: "#e391a0", c9: "#8d6e63", c10: "#7fb1ab" };
-  var UNKNOWN_COLOR = "#d6d9dd";
+  /* 카테고리 색: CSS는 var() 참조(테마 자동 전환), 캔버스(차트)는 computed 값 */
+  function catVar(key) { return "var(--" + key + ")"; }
+  function catColor(key) { return cc("--" + key); }
+  var UNKNOWN_COLOR = "var(--c-unknown)";
 
-  function catPill(key) { var c = cat(key); return '<span class="cat-pill" style="--cc:' + CAT_COLORS[key] + '">카테고리 ' + c.num + '</span>'; }
-  function catTag(key) { var c = cat(key); return '<span class="ctag" style="--cc:' + CAT_COLORS[key] + '"><span class="ctag-n">카테고리 ' + c.num + '</span><span class="ctag-nm">' + c.name + '</span></span>'; }
+  function catPill(key) { var c = cat(key); return '<span class="cat-pill" style="--cc:' + catVar(key) + '">카테고리 ' + c.num + '</span>'; }
+  function catTag(key) { var c = cat(key); return '<span class="ctag" style="--cc:' + catVar(key) + '"><span class="ctag-n">카테고리 ' + c.num + '</span><span class="ctag-nm">' + c.name + '</span></span>'; }
   function fullTrend(key) {
     var fm = D.months.filter(function (m) { return m.regime === "full"; });
     var pts = fm.map(function (m) { return { ym: m.ym, share: (m.categories[key] || 0) / m.total * 100, n: (m.categories[key] || 0), t: m.total, partial: m.partial }; });
@@ -463,19 +511,7 @@
   /* 접근성: 모션 감소 시 차트 애니메이션 끔 */
   if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) { Chart.defaults.animation = false; }
 
-  /* ── 전수 구간 일평균 바 ── */
-  new Chart(document.getElementById("dailyAvgChart"), {
-    type: "bar",
-    data: { labels: fm.map(monthShort), datasets: [{ data: fm.map(function (m) { return +(m.total / m.days).toFixed(2); }), backgroundColor: fm.map(function (m) { return m.partial ? "#A1B1BB" : "#436378"; }), borderRadius: 6, maxBarThickness: 90 }] },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: {
-        legend: { display: false },
-        tooltip: { callbacks: { label: function (c) { var m = fm[c.dataIndex]; return "일평균 " + (m.total / m.days).toFixed(2) + "건 (= " + fmt(m.total) + "/" + m.days + "일)" + (m.partial ? " · " + m.partialLabel : ""); } } }
-      },
-      scales: { x: { grid: { display: false }, ticks: { font: { size: 12 } } }, y: { beginAtZero: true, grid: { color: "#f0f1f3" }, title: { display: true, text: "일평균 건수", color: "#6b7680", font: { size: 12 } } } }
-    }
-  });
+  /* (차트 3종은 하단 paintCharts()에서 생성 — 다크모드 토글 시 재렌더) */
 
   /* ── 월간 비교 표 ── */
   var t1 = '<table><thead><tr><th>월</th><th>건수</th><th>일수</th><th>일평균 (근거)</th><th>일평균 전월 대비</th></tr></thead><tbody>';
@@ -505,21 +541,12 @@
   var cumMax = cumEntries[0].count;
   document.getElementById("cumDist").innerHTML = cumEntries.map(function (e) {
     return '<div class="dist-row"><div class="dist-label">' + catPill(e.key) + '<span class="dist-name">' + cat(e.key).name + '</span></div>' +
-      '<div class="dist-bar"><div class="dist-fill" style="width:' + (e.count / cumMax * 100).toFixed(1) + '%;background:' + CAT_COLORS[e.key] + '"></div></div>' +
+      '<div class="dist-bar"><div class="dist-fill" style="width:' + (e.count / cumMax * 100).toFixed(1) + '%;background:' + catVar(e.key) + '"></div></div>' +
       '<div class="dist-val"><b>' + fmt(e.count) + '</b>건 · ' + pct(e.count, D.cumulative.total) + '% <span class="ev">(= ' + fmt(e.count) + '/' + fmt(D.cumulative.total) + ')</span></div></div>';
   }).join("");
 
-  /* ── 카테고리 구성 스택 ── */
+  /* ── 카테고리 구성 스택 (차트는 paintCharts()에서 생성) ── */
   var labels = D.months.map(monthLabel);
-  var stackDs = D.categories.map(function (c) { return { label: catFull(c.key), backgroundColor: CAT_COLORS[c.key], data: D.months.map(function (m) { return m.categories[c.key] !== undefined ? m.categories[c.key] : null; }) }; });
-  stackDs.push({ label: "기타(미상) — 발췌 구간 분포 미확인분", backgroundColor: UNKNOWN_COLOR, data: D.months.map(function (m) { return m.unknown !== undefined ? m.unknown : null; }) });
-  new Chart(document.getElementById("stackChart"), {
-    type: "bar", data: { labels: labels, datasets: stackDs },
-    options: { responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false },
-        tooltip: { filter: function (it) { return it.raw !== null && it.raw !== 0; }, callbacks: { footer: function (it) { if (!it.length) return ""; var m = D.months[it[0].dataIndex]; var f = "월 합계 " + fmt(m.total) + "건 · " + D.regimes[m.regime].label; if (m.partial) f += " · " + m.partialLabel; return f; } } } },
-      scales: { x: { stacked: true, grid: { display: false }, ticks: { maxRotation: 60, minRotation: 45, font: { size: 12 } } }, y: { stacked: true, beginAtZero: true, grid: { color: "#f0f1f3" }, title: { display: true, text: "건수 (월)", color: "#6b7680", font: { size: 12 } } } } }
-  });
   document.getElementById("stack-legend").innerHTML =
     D.categories.map(function (c) { return catTag(c.key); }).join("") +
     '<span class="ctag" style="--cc:' + UNKNOWN_COLOR + '"><span class="ctag-n">기타(미상)</span><span class="ctag-nm">발췌 구간 분포 미확인분</span></span>';
@@ -533,7 +560,7 @@
       label: D.regimes[r].label, data: D.months.map(function (m) { return m.regime === r ? m.total : null; }),
       borderColor: color, backgroundColor: color, borderWidth: 2.3, tension: 0.25, spanGaps: false,
       pointRadius: D.months.map(function (m) { return m.regime === r ? (m.partial ? 5.5 : 3.5) : 0; }),
-      pointBackgroundColor: D.months.map(function (m) { return m.partial ? "#fff" : color; }),
+      pointBackgroundColor: D.months.map(function (m) { return m.partial ? chTheme().hole : color; }),
       pointBorderColor: color, pointBorderWidth: D.months.map(function (m) { return m.partial ? 2.5 : 1.5; })
     };
   }
@@ -555,22 +582,68 @@
     var ctx = chart.ctx, x = chart.scales.x, y = chart.scales.y;
     var idx = D.months.findIndex(function (m) { return m.ym === "2026-04"; }); if (idx < 0) return;
     var px = x.getPixelForValue(idx), py = y.getPixelForValue(totals[idx]);
-    ctx.save(); ctx.font = "600 12px Pretendard Variable, Pretendard, Noto Sans KR, Apple SD Gothic Neo, sans-serif"; ctx.fillStyle = "#b4540a"; ctx.textAlign = "right";
+    var anno = chTheme().anno;
+    ctx.save(); ctx.font = "600 12px Pretendard Variable, Pretendard, Noto Sans KR, Apple SD Gothic Neo, sans-serif"; ctx.fillStyle = anno; ctx.textAlign = "right";
     ctx.fillText("집계 방식 변화(발췌→전수)", px - 13, py + 25); ctx.fillText("— 실제 발생 급증 아님", px - 13, py + 38);
-    ctx.strokeStyle = "#b4540a"; ctx.setLineDash([2, 2]); ctx.beginPath(); ctx.moveTo(px - 9, py + 21); ctx.lineTo(px - 1, py + 6); ctx.stroke(); ctx.restore();
+    ctx.strokeStyle = anno; ctx.setLineDash([2, 2]); ctx.beginPath(); ctx.moveTo(px - 9, py + 21); ctx.lineTo(px - 1, py + 6); ctx.stroke(); ctx.restore();
   }};
-  new Chart(document.getElementById("trendChart"), {
-    type: "line", data: { labels: labels, datasets: [regimeSeries("past5"), regimeSeries("excerpt"), regimeSeries("full")] },
-    options: { responsive: true, maintainAspectRatio: false, layout: { padding: { top: 22 } },
-      plugins: { legend: { position: "bottom", labels: { boxWidth: 22, font: { size: 12 }, padding: 10 } },
-        tooltip: { callbacks: { title: function (it) { return monthLabel(D.months[it[0].dataIndex]); }, label: function (c) {
-          var m = D.months[c.dataIndex], L = ["VOC " + fmt(m.total) + "건", "수집: " + D.regimes[m.regime].label];
-          if (m.partial) L.push("⚠ " + m.partialLabel + " — 일평균 환산만");
-          if (m.regime === "full" && m.days) L.push("일평균 " + (m.total / m.days).toFixed(2) + " (= " + fmt(m.total) + "/" + m.days + "일)");
-          return L; } } } },
-      scales: { y: { beginAtZero: true, grid: { color: "#f0f1f3" }, title: { display: true, text: "건수 (월)", color: "#6b7680", font: { size: 12 } } }, x: { grid: { display: false }, ticks: { maxRotation: 60, minRotation: 45, font: { size: 12 } } } } },
-    plugins: [regimeBandPlugin]
-  });
+  /* ── 차트 3종 생성/재생성 (다크모드 토글 시 색 갱신) ── */
+  var chDaily, chStack, chTrend;
+  function paintCharts() {
+    var T = chTheme();
+    Chart.defaults.color = T.axis;
+    if (chDaily) { chDaily.destroy(); } if (chStack) { chStack.destroy(); } if (chTrend) { chTrend.destroy(); }
+
+    chDaily = new Chart(document.getElementById("dailyAvgChart"), {
+      type: "bar",
+      data: { labels: fm.map(monthShort), datasets: [{ data: fm.map(function (m) { return +(m.total / m.days).toFixed(2); }), backgroundColor: fm.map(function (m) { return m.partial ? cc("--navy-030") : cc("--navy"); }), borderRadius: 6, maxBarThickness: 90 }] },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: { callbacks: { label: function (c) { var m = fm[c.dataIndex]; return "일평균 " + (m.total / m.days).toFixed(2) + "건 (= " + fmt(m.total) + "/" + m.days + "일)" + (m.partial ? " · " + m.partialLabel : ""); } } }
+        },
+        scales: { x: { grid: { display: false }, ticks: { font: { size: 12 } } }, y: { beginAtZero: true, grid: { color: T.grid }, title: { display: true, text: "일평균 건수", color: T.axis, font: { size: 12 } } } }
+      }
+    });
+
+    var stackDs = D.categories.map(function (c) { return { label: catFull(c.key), backgroundColor: catColor(c.key), data: D.months.map(function (m) { return m.categories[c.key] !== undefined ? m.categories[c.key] : null; }) }; });
+    stackDs.push({ label: "기타(미상) — 발췌 구간 분포 미확인분", backgroundColor: catColor("c-unknown"), data: D.months.map(function (m) { return m.unknown !== undefined ? m.unknown : null; }) });
+    chStack = new Chart(document.getElementById("stackChart"), {
+      type: "bar", data: { labels: labels, datasets: stackDs },
+      options: { responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false },
+          tooltip: { filter: function (it) { return it.raw !== null && it.raw !== 0; }, callbacks: { footer: function (it) { if (!it.length) return ""; var m = D.months[it[0].dataIndex]; var f = "월 합계 " + fmt(m.total) + "건 · " + D.regimes[m.regime].label; if (m.partial) f += " · " + m.partialLabel; return f; } } } },
+        scales: { x: { stacked: true, grid: { display: false }, ticks: { maxRotation: 60, minRotation: 45, font: { size: 12 } } }, y: { stacked: true, beginAtZero: true, grid: { color: T.grid }, title: { display: true, text: "건수 (월)", color: T.axis, font: { size: 12 } } } } }
+    });
+
+    chTrend = new Chart(document.getElementById("trendChart"), {
+      type: "line", data: { labels: labels, datasets: [regimeSeries("past5"), regimeSeries("excerpt"), regimeSeries("full")] },
+      options: { responsive: true, maintainAspectRatio: false, layout: { padding: { top: 22 } },
+        plugins: { legend: { position: "bottom", labels: { boxWidth: 22, font: { size: 12 }, padding: 10 } },
+          tooltip: { callbacks: { title: function (it) { return monthLabel(D.months[it[0].dataIndex]); }, label: function (c) {
+            var m = D.months[c.dataIndex], L = ["VOC " + fmt(m.total) + "건", "수집: " + D.regimes[m.regime].label];
+            if (m.partial) L.push("⚠ " + m.partialLabel + " — 일평균 환산만");
+            if (m.regime === "full" && m.days) L.push("일평균 " + (m.total / m.days).toFixed(2) + " (= " + fmt(m.total) + "/" + m.days + "일)");
+            return L; } } } },
+        scales: { y: { beginAtZero: true, grid: { color: T.grid }, title: { display: true, text: "건수 (월)", color: T.axis, font: { size: 12 } } }, x: { grid: { display: false }, ticks: { maxRotation: 60, minRotation: 45, font: { size: 12 } } } } },
+      plugins: [regimeBandPlugin]
+    });
+  }
+  paintCharts();
+
+  /* ── 다크/라이트 토글 ── */
+  (function () {
+    var btn = document.getElementById("themeToggle");
+    function sync() { var d = isDark(); if (btn) { btn.textContent = d ? "☀️" : "🌙"; btn.setAttribute("aria-pressed", d ? "true" : "false"); } }
+    sync();
+    if (btn) btn.addEventListener("click", function () {
+      var next = isDark() ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", next);
+      try { localStorage.setItem("voc-theme", next); } catch (e) {}
+      sync(); paintCharts();
+    });
+  })();
   document.getElementById("trend-legend").innerHTML =
     '<span><span class="sw" style="background:repeating-linear-gradient(90deg,#c2c6cc 0 5px,transparent 5px 10px)"></span>선이 끊긴 구간끼리는 비교 금지</span>' +
     '<span>흰 점 = 부분 월(' + (partialMonth ? partialMonth.ym.replace("-", ".") + ", " + partialMonth.partialLabel : "") + ')</span>';
