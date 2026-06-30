@@ -81,7 +81,7 @@
   .wrap { max-width: 1080px; margin: 0 auto; padding: 0 22px 88px; }
 
   header.top { padding: 30px 0 14px; }
-  header.top h1 { font-size: 24px; margin: 0 0 5px; letter-spacing: -0.4px; }
+  header.top h1 { font-size: 32px; font-weight: 700; margin: 0 0 6px; letter-spacing: -0.02em; line-height: 1.18; }
   header.top .sub { color: var(--ink-3); font-size: 12px; }
 
   nav.toc { position: sticky; top: 0; z-index: 30; background: var(--nav-bg);
@@ -97,7 +97,7 @@
 
   section { scroll-margin-top: 58px; margin-bottom: 42px; }
   .s-head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
-  .s-head h2 { font-size: 19px; font-weight: 800; margin: 0; letter-spacing: -0.5px; }
+  .s-head h2 { font-size: 28px; font-weight: 600; margin: 0; letter-spacing: -0.02em; line-height: 1.18; }
   .s-head .h-meta { font-size: 12px; color: var(--ink-3); }
   .s-head .tag-ok { font-size: 12px; font-weight: 700; color: var(--navy); background: var(--navy-bg); padding: 1px 8px; border-radius: 999px; }
   .s-head .tag-care { font-size: 12px; font-weight: 700; color: var(--infer); background: var(--infer-bg); padding: 1px 8px; border-radius: 999px; }
@@ -155,7 +155,7 @@
   details.insight > summary { list-style: none; cursor: pointer; padding: 13px 16px; display: flex; align-items: center; gap: 11px; flex-wrap: wrap; }
   details.insight > summary::-webkit-details-marker { display: none; }
   details.insight > summary:hover { background: var(--hover); }
-  .sum-name { font-weight: 700; font-size: 14px; letter-spacing: -0.3px; }
+  .sum-name { font-weight: 600; font-size: 16px; letter-spacing: -0.01em; }
   .sum-right { margin-left: auto; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
   .sum-stat { font-size: 12px; color: var(--ink-2); }
   .sum-stat b { color: var(--ink); font-weight: 800; }
@@ -281,14 +281,14 @@
   }
 
   /* ── 시그니처 히어로: 지배적 사실 하나 ── */
-  .hero { position: relative; background: linear-gradient(180deg,var(--hero-1),var(--hero-2)); border: 1px solid var(--line); border-radius: 18px; padding: 24px 26px 20px; }
+  .hero { position: relative; background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 24px 26px 20px; }
   .hero .eyebrow { font-size: 12px; font-weight: 800; letter-spacing: .04em; color: var(--ink-3); }
   .hero .eyebrow b { color: var(--up); }
   .hero-grid { display: grid; grid-template-columns: auto 1fr; gap: 28px; align-items: center; margin-top: 8px; }
   .hero-figure { display: flex; align-items: flex-start; gap: 3px; }
   .hero-figure .big { font-family: var(--num); font-weight: 700; font-size: 68px; line-height: .82; letter-spacing: -2px; color: var(--navy-deep); font-variant-numeric: tabular-nums; }
   .hero-figure .pct { font-family: var(--num); font-weight: 600; font-size: 26px; color: var(--navy); margin-top: 6px; }
-  .hero-thesis { font-size: 19px; font-weight: 800; letter-spacing: -.4px; line-height: 1.3; color: var(--ink); }
+  .hero-thesis { font-size: 24px; font-weight: 700; letter-spacing: -.02em; line-height: 1.25; color: var(--ink); }
   .hero-thesis b { color: var(--up); }
   .hero-sub { font-size: 13px; color: var(--ink-2); margin-top: 6px; line-height: 1.55; }
   .hero-sub b { color: var(--ink); font-weight: 700; }
