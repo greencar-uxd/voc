@@ -29,39 +29,39 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendard-dynamic-subset.min.css">
 <style>
   :root {
-    /* 그린카 디자인 시스템 — Cobalt #2348E0 + 코랄 대비 · 전체 Pretendard · 색=의미 1:1 (2026-06-29 코발트 개편) */
-    --bg: #f4f6fc; --card: #ffffff; --line: #e1e7f2; --line-2: #eef1f9;
-    --ink: #15203b; --ink-2: #46506a; --ink-3: #6c768c; --accent: #2348e0;
-    --fact: #2348e0;   --fact-bg: #e9eefe;
-    --infer: #a6571a;  --infer-bg: #fbefdd;
-    --check: #586079;  --check-bg: #edf0f8;
-    --up: #e0542b;     --down: #2348e0;
-    --r-past5: #b6c0da; --r-excerpt: #6e8ad6; --r-full: #2348e0;  /* 수집구간 = 코발트 단계 */
-    --navy: #2348e0; --navy-030: #a9b9f2; --navy-bg: #e9eefe; --navy-deep: #16308f;
+    /* 그린카 × Cobalt 디자인 시스템 — Monochrome(ink) + Cobalt 강조 · Pretendard · 공식 토큰 매핑 (2026-06-29) */
+    --bg: #f7f8f9; --card: #ffffff; --line: #dde0e5; --line-2: #eceef1;
+    --ink: #14171b; --ink-2: #4d535d; --ink-3: #6b727d; --accent: #2d5bff;
+    --fact: #2447e0;   --fact-bg: #eef2ff;
+    --infer: #b56e08;  --infer-bg: #fbf2df;
+    --check: #6b727d;  --check-bg: #eceef1;
+    --up: #e0433a;     --down: #2447e0;
+    --r-past5: #c5cad1; --r-excerpt: #93acff; --r-full: #2447e0;  /* 수집구간 = 회색→코발트 단계 */
+    --navy: #2447e0; --navy-030: #93acff; --navy-bg: #eef2ff; --navy-deep: #1c328f;
     --num: "Pretendard Variable", "Pretendard", "Noto Sans KR", "Apple SD Gothic Neo", sans-serif;
-    /* 카테고리 색 (색=의미 1:1) — 차트/칩/막대 공용. 다크에서 밝은 버전으로 오버라이드 */
-    --c1:#4c7ef3; --c2:#1b3fb5; --c3:#2fa968; --c4:#e0463f; --c5:#18a39c;
-    --c6:#c6891c; --c7:#8a5ad4; --c8:#e06f9e; --c9:#98765a; --c10:#4fb3ab; --c-unknown:#c9d0de;
+    /* 카테고리 색 — DS chart 팔레트(cobalt·green·amber·purple·red·gray) + 4색 확장 */
+    --c1:#5e84ff; --c2:#2447e0; --c3:#0fa968; --c4:#d9870b; --c5:#8b5cf6;
+    --c6:#14b8a6; --c7:#e0433a; --c8:#ec4899; --c9:#6b727d; --c10:#0ea5e9; --c-unknown:#c5cad1;
     /* 히어로 그라데이션 */
-    --hero-1:#f0f4fe; --hero-2:#ffffff;
-    --shadow: 0 1px 2px rgba(20,32,60,.05);
-    --nav-bg: rgba(244,246,252,0.85); --hover:#e6ebf8; --track:#ebeef6;
+    --hero-1:#eef2ff; --hero-2:#ffffff;
+    --shadow: 0 1px 2px rgba(16,18,29,.06), 0 1px 3px rgba(16,18,29,.04);
+    --nav-bg: rgba(247,248,249,0.85); --hover:#eceef1; --track:#eceef1;
   }
   /* ───────────── 다크모드 ───────────── */
   :root[data-theme="dark"] {
-    --bg:#0c1322; --card:#141d30; --line:#263350; --line-2:#1b2438;
-    --ink:#e8ecf6; --ink-2:#aeb8cc; --ink-3:#8590a6; --accent:#6e8cff;
-    --fact:#6e8cff;  --fact-bg:#1a2752;
-    --infer:#e0a35e; --infer-bg:#33250f;
-    --check:#98a2b8; --check-bg:#212c42;
-    --up:#f0734a;    --down:#6e8cff;
-    --r-past5:#7a86a2; --r-excerpt:#8fa6e6; --r-full:#6e8cff;
-    --navy:#4f74f5; --navy-030:#34406a; --navy-bg:#1a2752; --navy-deep:#a9bef5;
-    --c1:#6e97f7; --c2:#5c7be8; --c3:#4fc07f; --c4:#f0625c; --c5:#3cc2bb;
-    --c6:#e6b84e; --c7:#a98ae6; --c8:#f08cb4; --c9:#bc9a78; --c10:#6fc9c1; --c-unknown:#3a4456;
-    --hero-1:#16223c; --hero-2:#101a2e;
-    --shadow: 0 1px 2px rgba(0,0,0,.35);
-    --nav-bg: rgba(12,19,34,0.85); --hover:#212c42; --track:#212c42;
+    --bg:#0d0f12; --card:#16181d; --line:#262a30; --line-2:#1d2025;
+    --ink:#f3f4f6; --ink-2:#9aa1ab; --ink-3:#6b727d; --accent:#5b7cff;
+    --fact:#7d97ff;  --fact-bg:#18203f;
+    --infer:#e0a35e; --infer-bg:#2e2410;
+    --check:#9aa1ab; --check-bg:#1d2025;
+    --up:#f0625c;    --down:#5b7cff;
+    --r-past5:#5b626f; --r-excerpt:#93acff; --r-full:#5b7cff;
+    --navy:#5b7cff; --navy-030:#36406b; --navy-bg:#18203f; --navy-deep:#93acff;
+    --c1:#7d97ff; --c2:#5b7cff; --c3:#2dd48f; --c4:#e8a13b; --c5:#a78bfa;
+    --c6:#2dd4bf; --c7:#f0625c; --c8:#f472b6; --c9:#9aa1ab; --c10:#38bdf8; --c-unknown:#343943;
+    --hero-1:#16181d; --hero-2:#0d0f12;
+    --shadow: 0 1px 2px rgba(0,0,0,.4);
+    --nav-bg: rgba(13,15,18,0.85); --hover:#1d2025; --track:#1d2025;
   }
   /* 다크 — 틴트 칩/뱃지/콜아웃(밝은 파스텔 배경) 보정 */
   :root[data-theme="dark"] .s-head .tag-care,
