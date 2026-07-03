@@ -503,7 +503,7 @@
   }
 
   document.getElementById("meta-sub").textContent = "기간 " + D.meta.periodLabel + " · 확정된 집계 기록 기준 (" + D.meta.version + ")";
-  document.getElementById("cum-meta").textContent = "2024.12 ~ 2026.06 · 총 " + fmt(D.cumulative.total) + "건";
+  document.getElementById("cum-meta").textContent = D.meta.periodLabel.replace(" (진행 중)", "") + " · 총 " + fmt(D.cumulative.total) + "건";
   document.getElementById("footer").textContent = "데이터 버전 " + D.meta.version + " · 갱신 절차 README.md · 분류 기준 rules/classification-rules.md";
 
   /* ── 이 대시보드는? (목적 + 다룸/안 다룸 + 핵심 주의 1줄) ── */
@@ -553,7 +553,7 @@
   var dailyAvg = (fullTotal / fullDays).toFixed(1);
   var kpi = "";
   kpi += '<div class="kpi"><div class="k">누적 VOC</div><div class="v">' + fmt(D.cumulative.total) + '<small> 건</small></div><div class="e">정기(전수) ' + fmt(D.cumulative.byRegime.full) + ' + 발췌 ' + fmt(D.cumulative.byRegime.excerpt) + ' + 과거 1년 ' + fmt(D.cumulative.byRegime.past5) + '</div></div>';
-  kpi += '<div class="kpi"><div class="k">기간</div><div class="v" style="font-size:20px">2024.12–2026.06</div><div class="e">' + D.meta.monthCount + '개월 · ' + (partialMonth ? pmMon() + '은 ' + partialMonth.partialLabel : '') + '</div></div>';
+  kpi += '<div class="kpi"><div class="k">기간</div><div class="v" style="font-size:20px">' + D.months[0].ym.replace("-", ".") + '–' + D.months[D.months.length - 1].ym.replace("-", ".") + '</div><div class="e">' + D.meta.monthCount + '개월 · ' + (partialMonth ? pmMon() + '은 ' + partialMonth.partialLabel : '') + '</div></div>';
   kpi += '<div class="kpi"><div class="k">전수 구간 일평균</div><div class="v">' + dailyAvg + '<small> 건</small></div><div class="e">= ' + fmt(fullTotal) + ' / ' + fullDays + '일</div></div>';
   document.getElementById("kpis").innerHTML = kpi;
 
@@ -578,13 +578,21 @@
 
   var t2 = '<table><thead><tr><th>카테고리 (정식 분류명)</th>';
   fm.forEach(function (m) { t2 += "<th>" + monthShort(m) + "</th>"; });
-  t2 += "<th>5월−4월</th><th>6월진행−5월</th></tr></thead><tbody>";
+  fm.forEach(function (m, i) {
+    if (i === 0) return;
+    var a = parseInt(fm[i - 1].ym.split("-")[1], 10), b = parseInt(m.ym.split("-")[1], 10);
+    t2 += "<th>" + b + "월" + (m.partial ? "진행" : "") + "−" + a + "월</th>";
+  });
+  t2 += "</tr></thead><tbody>";
   D.categories.forEach(function (c) {
-    var sh = fm.map(function (m) { return m.categories[c.key] / m.total * 100; });
+    var sh = fm.map(function (m) { return (m.categories[c.key] || 0) / m.total * 100; });
     t2 += "<tr><td>" + catTag(c.key) + "</td>";
-    fm.forEach(function (m, i) { t2 += "<td>" + sh[i].toFixed(1) + "% <span class='ev'>(" + fmt(m.categories[c.key]) + "/" + fmt(m.total) + ")</span></td>"; });
-    var d1 = sh[1] - sh[0], d2 = sh[2] - sh[1];
-    t2 += "<td class='" + (d1 > 0 ? "up" : "down") + "'>" + (d1 > 0 ? "+" : "") + d1.toFixed(1) + "pp</td><td class='" + (d2 > 0 ? "up" : "down") + "'>" + (d2 > 0 ? "+" : "") + d2.toFixed(1) + "pp</td></tr>";
+    fm.forEach(function (m, i) { t2 += "<td>" + sh[i].toFixed(1) + "% <span class='ev'>(" + fmt(m.categories[c.key] || 0) + "/" + fmt(m.total) + ")</span></td>"; });
+    for (var di = 1; di < fm.length; di++) {
+      var d = sh[di] - sh[di - 1];
+      t2 += "<td class='" + (d > 0 ? "up" : "down") + "'>" + (d > 0 ? "+" : "") + d.toFixed(1) + "pp</td>";
+    }
+    t2 += "</tr>";
   });
   t2 += "</tbody></table>";
   document.getElementById("share-compare").innerHTML = '<p class="tbl-cap">카테고리 비중 변동 (전수 구간 내) <span class="badge fact">사실</span> <span class="ev">— ' + (partialMonth ? pmMon() + ' 진행분은 ' + partialMonth.days + '일치 참고치' : '') + '</span></p>' + t2;
