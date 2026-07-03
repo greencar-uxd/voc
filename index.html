@@ -903,7 +903,7 @@
   }
   } /* /render */
 
-  /* ── 데이터 소스: 구글시트 라이브 우선, 실패 시 voc-raw.js 스냅샷 폴백 ── */
+  /* ── 데이터 소스: voc-raw.js가 정본 (아래 구글시트 연동 코드는 폐기·보존) ── */
   function parseCSV(text){
     var rows=[], row=[], cur="", q=false, i=0, c;
     for(; i<text.length; i++){ c=text[i];
@@ -947,9 +947,10 @@
       return R;
     });
   }
-  loadSheet()
-    .then(function(R){ render(R, "라이브 시트"); })
-    .catch(function(){ render(window.VOC_RAW, "스냅샷"); });
+  /* 정본 = voc-raw.js (리포지토리에서 버전 관리·매 사이클 커밋으로 갱신).
+   * 구글시트 라이브 연동은 수동 갱신이 필요해 정본보다 뒤처지는 문제로 폐기(2026-07-03).
+   * loadSheet 등 연동 코드는 재활성화 대비 보존. */
+  render(window.VOC_RAW, "확정 DB");
 })();
 </script>
 </body>
