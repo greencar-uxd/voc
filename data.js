@@ -65,7 +65,7 @@ window.VOC_DATA = {
   cumulative: {
     total: 3485,
     byRegime: { full: 1253, excerpt: 506, past5: 1726 },
-    byCategory: { c2: 2146, c1: 422, c5: 196, c4: 213, c3: 138, c7: 109, c9: 100, c6: 66, c8: 51, c10: 44 }
+    byCategory: { c2: 2145, c1: 423, c5: 196, c4: 213, c3: 138, c7: 109, c9: 100, c6: 66, c8: 51, c10: 44 }
   },
 
   /* 전수(정기) 구간 일수 — 일평균 계산용. 2026.04(30일) + 2026.05(31일) + 2026.06(29일, 06-10 미수집) + 2026.07 진행분(8일) */
@@ -98,7 +98,7 @@ window.VOC_DATA = {
     { ym: "2026-06", total: 316, regime: "full", days: 29,
       categories: { c1: 98, c2: 43, c3: 11, c4: 56, c5: 18, c6: 17, c7: 10, c8: 19, c9: 38, c10: 6 } },
     { ym: "2026-07", total: 62, regime: "full", days: 8, partial: true, partialLabel: "8일치 진행 중 (7/1 확정 0건)",
-      categories: { c1: 23, c2: 7, c3: 3, c4: 14, c5: 2, c6: 1, c7: 1, c8: 2, c9: 6, c10: 3 } }
+      categories: { c1: 24, c2: 6, c3: 3, c4: 14, c5: 2, c6: 1, c7: 1, c8: 2, c9: 6, c10: 3 } }
   ],
 
   /* 반납 묶음 인사이트: 카테고리 2 + 카테고리 9 + 카테고리 10 */
