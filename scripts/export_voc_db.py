@@ -16,12 +16,12 @@ data = json.loads(re.search(r'window\.VOC_RAW = (\{.*\});', src, re.S).group(1))
 
 with open('voc-db.csv', 'w', encoding='utf-8', newline='') as f:
     w = csv.writer(f)
-    w.writerow(['월', '일', '카테고리', '사용후기', 'App 편의', '요금정책', '청결', '정비', 'Gcar존안내', '추천의향'])
+    # 사용후기 아카이브 — 점수 컬럼은 담지 않는다 (월/일/카테고리/사용후기만)
+    w.writerow(['월', '일', '카테고리', '사용후기'])
     n = 0
     for ck in ['c1','c2','c3','c4','c5','c6','c7','c8','c9','c10']:
         for r in data['byCat'].get(ck, []):
-            s = r['s']
-            w.writerow([r['ym'], r['d'], CAT_NAMES[ck], r['t'], s['app'], s['fee'], s['cln'], s['fix'], s['gz'], s['rec']])
+            w.writerow([r['ym'], r['d'], CAT_NAMES[ck], r['t']])
             n += 1
 print(f'voc-db.csv: {n} rows (meta.total={data["meta"]["total"]})', file=sys.stderr)
 assert n == data['meta']['total'], 'row count != meta.total'
