@@ -16,12 +16,14 @@ data = json.loads(re.search(r'window\.VOC_RAW = (\{.*\});', src, re.S).group(1))
 
 with open('voc-db.csv', 'w', encoding='utf-8', newline='') as f:
     w = csv.writer(f)
-    # 사용후기 아카이브 — 점수 컬럼은 담지 않는다 (월/일/카테고리/사용후기만)
-    w.writerow(['월', '일', '카테고리', '사용후기'])
+    # 사용후기 아카이브 — 점수 컬럼 제외. 날짜는 온전한 YYYY-MM-DD 하나로
+    # (월만 있는 "2026-06"은 구글 시트가 날짜 시리얼 숫자로 오인하므로 일자까지 붙인다)
+    w.writerow(['날짜', '카테고리', '사용후기'])
     n = 0
     for ck in ['c1','c2','c3','c4','c5','c6','c7','c8','c9','c10']:
         for r in data['byCat'].get(ck, []):
-            w.writerow([r['ym'], r['d'], CAT_NAMES[ck], r['t']])
+            ymd = f"{r['ym']}-{int(r['d']):02d}"
+            w.writerow([ymd, CAT_NAMES[ck], r['t']])
             n += 1
 print(f'voc-db.csv: {n} rows (meta.total={data["meta"]["total"]})', file=sys.stderr)
 assert n == data['meta']['total'], 'row count != meta.total'
