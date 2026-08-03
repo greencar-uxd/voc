@@ -63,9 +63,9 @@ window.VOC_DATA = {
 
   /* 누적 확정치 (2026-06-10 확정 집계 기준) */
   cumulative: {
-    total: 3725,
-    byRegime: { full: 1493, excerpt: 506, past5: 1726 },
-    byCategory: { c2: 2202, c1: 497, c5: 209, c4: 257, c3: 147, c7: 117, c9: 121, c6: 71, c8: 55, c10: 49 }
+    total: 3726,
+    byRegime: { full: 1494, excerpt: 506, past5: 1726 },
+    byCategory: { c2: 2203, c1: 498, c5: 209, c4: 257, c3: 147, c7: 117, c9: 120, c6: 71, c8: 55, c10: 49 }
   },
 
   /* 전수(정기) 구간 일수 — 일평균 계산용. 2026.04(30일) + 2026.05(31일) + 2026.06(29일, 06-10 미수집) + 2026.07(31일) + 2026.08 진행분(2일) */
@@ -97,10 +97,10 @@ window.VOC_DATA = {
       categories: { c1: 103, c2: 88, c3: 17, c4: 68, c5: 23, c6: 24, c7: 30, c8: 20, c9: 28, c10: 9 } },
     { ym: "2026-06", total: 316, regime: "full", days: 29,
       categories: { c1: 98, c2: 43, c3: 11, c4: 56, c5: 18, c6: 17, c7: 10, c8: 19, c9: 38, c10: 6 } },
-    { ym: "2026-07", total: 283, regime: "full", days: 31,
-      categories: { c1: 89, c2: 61, c3: 11, c4: 54, c5: 15, c6: 6, c7: 9, c8: 6, c9: 24, c10: 8 } },
+    { ym: "2026-07", total: 284, regime: "full", days: 31,
+      categories: { c1: 89, c2: 62, c3: 11, c4: 54, c5: 15, c6: 6, c7: 9, c8: 6, c9: 24, c10: 8 } },
     { ym: "2026-08", total: 19, regime: "full", days: 2, partial: true, partialLabel: "2일치 진행 중",
-      categories: { c1: 9, c2: 2, c3: 1, c4: 4, c9: 3 } }
+      categories: { c1: 10, c2: 2, c3: 1, c4: 4, c9: 2 } }
   ],
 
   /* 반납 묶음 인사이트: 카테고리 2 + 카테고리 9 + 카테고리 10 */
